@@ -96,6 +96,10 @@ public final class ApplicationTest {
                 ""
         );
 
+        execute("deadline 4 20/09/2017");
+        execute("today");
+        readLines("    [ ] 4: SOLID");
+
         execute("quit");
     }
 

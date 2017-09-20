@@ -65,10 +65,17 @@ public final class TaskList implements Runnable {
             case "help":
                 help();
                 break;
+            case "deadline":
+                deadline(new TaskDeadline(commandLine));
             default:
                 error(command);
                 break;
         }
+    }
+
+    private void deadline(TaskDeadline taskDeadline) {
+        Task task = findTask(taskDeadline.id);
+        task.setDeadline(taskDeadline.date());
     }
 
     private void show() {
@@ -116,16 +123,26 @@ public final class TaskList implements Runnable {
 
     private void setDone(String idString, boolean done) {
         int id = Integer.parseInt(idString);
+        Task tsk = findTask(id);
+        if (tsk == null) {
+            out.printf("Could not find a task with an ID of %d.", id);
+            out.println();
+        } else {
+            tsk.setDone(done);
+        }
+    }
+
+    private Task findTask(int id) {
+        Task tsk = null;
         for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
             for (Task task : project.getValue()) {
                 if (task.getId() == id) {
-                    task.setDone(done);
-                    return;
+                    tsk = task;
+                    break;
                 }
             }
         }
-        out.printf("Could not find a task with an ID of %d.", id);
-        out.println();
+        return tsk;
     }
 
     private void help() {

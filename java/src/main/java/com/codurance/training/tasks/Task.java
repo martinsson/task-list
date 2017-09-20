@@ -4,6 +4,7 @@ public final class Task {
     private final long id;
     private final String description;
     private boolean done;
+    private MyDate deadline;
 
     public Task(long id, String description, boolean done) {
         this.id = id;
@@ -25,5 +26,13 @@ public final class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public void setDeadline(MyDate deadline) {
+        this.deadline = deadline;
+    }
+
+    public MyDate getDeadline() {
+        return deadline;
     }
 }
