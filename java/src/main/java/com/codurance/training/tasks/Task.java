@@ -1,5 +1,7 @@
 package com.codurance.training.tasks;
 
+import java.io.PrintWriter;
+
 public final class Task {
     private final long id;
     private final String description;
@@ -38,5 +40,9 @@ public final class Task {
 
     public boolean isDue(MyDate onDate) {
         return onDate != null && onDate.equals(deadline);
+    }
+
+    void printTask(PrintWriter out) {
+        out.printf("    [%c] %d: %s%n", (isDone() ? 'x' : ' '), getId(), getDescription());
     }
 }

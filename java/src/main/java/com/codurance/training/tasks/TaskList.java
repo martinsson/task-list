@@ -81,7 +81,7 @@ public final class TaskList implements Runnable {
     private void today() {
         MyDate today = new MyDate("21/09/2017");
         getAllTasks().filter(task -> task.isDue(today))
-                .forEach(this::printTask);
+                .forEach(task -> task.printTask(out));
     }
 
     private void deadline(TaskDeadline taskDeadline) {
@@ -93,14 +93,10 @@ public final class TaskList implements Runnable {
         for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
             out.println(project.getKey());
             for (Task task : project.getValue()) {
-                printTask(task);
+                task.printTask(out);
             }
             out.println();
         }
-    }
-
-    private void printTask(Task task) {
-        out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
     }
 
     private void add(String commandLine) {
