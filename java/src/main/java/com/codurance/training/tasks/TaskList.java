@@ -55,10 +55,10 @@ public final class TaskList implements Runnable {
                 add(commandRest[1]);
                 break;
             case "check":
-                check(commandRest[1]);
+                check(new TaskId(commandRest[1]));
                 break;
             case "uncheck":
-                uncheck(commandRest[1]);
+                uncheck(new TaskId(commandRest[1]));
                 break;
             case "help":
                 help();
@@ -121,22 +121,22 @@ public final class TaskList implements Runnable {
             out.println();
             return;
         }
-        projectTasks.add(new Task(new TaskId(nextId()), description, false));
+        TaskId id = new TaskId(nextId());
+        projectTasks.add(new Task(id, description, false));
     }
 
-    private void check(String idString) {
-        setDone(idString, true);
+    private void check(TaskId taskId) {
+        setDone(taskId, true);
     }
 
-    private void uncheck(String idString) {
-        setDone(idString, false);
+    private void uncheck(TaskId taskId) {
+        setDone(taskId, false);
     }
 
-    private void setDone(String idString, boolean done) {
-        int id = Integer.parseInt(idString);
-        Task tsk = findTask(new TaskId(idString));
+    private void setDone(TaskId taskId, boolean done) {
+        Task tsk = findTask(taskId);
         if (tsk == null) {
-            out.printf("Could not find a task with an ID of %d.", id);
+            out.printf("Could not find a task with an ID of %s.", taskId);
             out.println();
         } else {
             tsk.setDone(done);

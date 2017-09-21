@@ -4,11 +4,14 @@ public class TaskId {
     private String id;
 
     public TaskId(String id) {
+        if (id.contains(" ")) {
+            throw new RuntimeException("spaces are not allowed in id");
+        }
         this.id = id;
     }
 
     public TaskId(long l) {
-        id = l+ "";
+        this(l+ "");
     }
 
     @Override
