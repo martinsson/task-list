@@ -35,4 +35,8 @@ public final class Task {
     public MyDate getDeadline() {
         return deadline;
     }
+
+    public boolean isDue(MyDate onDate) {
+        return onDate != null && onDate.equals(deadline);
+    }
 }

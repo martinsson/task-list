@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
@@ -47,7 +45,7 @@ public final class TaskList implements Runnable {
     }
 
     private void execute(String commandLine) {
-        String[] commandRest = commandLine.split(" ", 2);
+        String[] commandRest = commandLine.split(" ",2);
         String command = commandRest[0];
         switch (command) {
             case "show":
@@ -66,26 +64,43 @@ public final class TaskList implements Runnable {
                 help();
                 break;
             case "deadline":
-                deadline(new TaskDeadline(commandLine));
+                commandRest = commandLine.split(" ",3);
+                MyDate deadline = new MyDate(commandRest[2]);
+                Integer taskId = Integer.valueOf(commandRest[1]);
+                deadline(new TaskDeadline(taskId, deadline));
+                break;
+            case "today":
+                today();
+                break;
             default:
                 error(command);
                 break;
         }
     }
 
+    private void today() {
+        MyDate today = new MyDate("21/09/2017");
+        getAllTasks().filter(task -> task.isDue(today))
+                .forEach(this::printTask);
+    }
+
     private void deadline(TaskDeadline taskDeadline) {
         Task task = findTask(taskDeadline.id);
-        task.setDeadline(taskDeadline.date());
+        task.setDeadline(taskDeadline.deadline());
     }
 
     private void show() {
         for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
             out.println(project.getKey());
             for (Task task : project.getValue()) {
-                out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
+                printTask(task);
             }
             out.println();
         }
+    }
+
+    private void printTask(Task task) {
+        out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
     }
 
     private void add(String commandLine) {
@@ -133,16 +148,14 @@ public final class TaskList implements Runnable {
     }
 
     private Task findTask(int id) {
-        Task tsk = null;
-        for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
-            for (Task task : project.getValue()) {
-                if (task.getId() == id) {
-                    tsk = task;
-                    break;
-                }
-            }
-        }
-        return tsk;
+        return getAllTasks()
+                .filter(task -> task.getId() == id)
+                .findFirst()
+                .get();
+    }
+
+    private Stream<Task> getAllTasks() {
+        return tasks.entrySet().stream().flatMap((project -> project.getValue().stream()));
     }
 
     private void help() {
