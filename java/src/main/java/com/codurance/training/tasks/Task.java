@@ -3,18 +3,18 @@ package com.codurance.training.tasks;
 import java.io.PrintWriter;
 
 public final class Task {
-    private final long id;
+    private final TaskId id;
     private final String description;
     private boolean done;
     private MyDate deadline;
 
-    public Task(long id, String description, boolean done) {
+    public Task(TaskId id, String description, boolean done) {
         this.id = id;
         this.description = description;
         this.done = done;
     }
 
-    public long getId() {
+    public TaskId getId() {
         return id;
     }
 
@@ -43,6 +43,6 @@ public final class Task {
     }
 
     void printTask(PrintWriter out) {
-        out.printf("    [%c] %d: %s%n", (isDone() ? 'x' : ' '), getId(), getDescription());
+        out.printf("    [%c] %s: %s%n", (isDone() ? 'x' : ' '), getId().toString(), getDescription());
     }
 }

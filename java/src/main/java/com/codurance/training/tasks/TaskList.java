@@ -66,8 +66,8 @@ public final class TaskList implements Runnable {
             case "deadline":
                 commandRest = commandLine.split(" ",3);
                 MyDate deadline = new MyDate(commandRest[2]);
-                Integer taskId = Integer.valueOf(commandRest[1]);
-                deadline(new TaskDeadline(taskId, deadline));
+                TaskId id = new TaskId(commandRest[1]);
+                deadline(new TaskDeadline(id, deadline));
                 break;
             case "today":
                 today();
@@ -121,7 +121,7 @@ public final class TaskList implements Runnable {
             out.println();
             return;
         }
-        projectTasks.add(new Task(nextId(), description, false));
+        projectTasks.add(new Task(new TaskId(nextId()), description, false));
     }
 
     private void check(String idString) {
@@ -134,7 +134,7 @@ public final class TaskList implements Runnable {
 
     private void setDone(String idString, boolean done) {
         int id = Integer.parseInt(idString);
-        Task tsk = findTask(id);
+        Task tsk = findTask(new TaskId(idString));
         if (tsk == null) {
             out.printf("Could not find a task with an ID of %d.", id);
             out.println();
@@ -143,11 +143,11 @@ public final class TaskList implements Runnable {
         }
     }
 
-    private Task findTask(int id) {
+    private Task findTask(TaskId id) {
         return getAllTasks()
-                .filter(task -> task.getId() == id)
+                .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
     private Stream<Task> getAllTasks() {

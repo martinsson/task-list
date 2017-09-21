@@ -1,10 +1,10 @@
 package com.codurance.training.tasks;
 
 public class TaskDeadline {
-    public final int id;
+    public final TaskId id;
     private MyDate deadline;
 
-    public TaskDeadline(int taskId, MyDate deadline) {
+    public TaskDeadline(TaskId taskId, MyDate deadline) {
         id = taskId;
         this.deadline = deadline;
     }
