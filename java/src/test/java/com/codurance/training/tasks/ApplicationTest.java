@@ -74,6 +74,7 @@ public final class ApplicationTest {
         execute("add task training Primitive Obsession");
         execute("add task training Outside-In TDD");
         execute("add task training Interaction-Driven Design");
+        execute("add task-with-id secrets myId Stop drinking coffee");
 
         execute("check 1");
         execute("check 3");
@@ -85,6 +86,7 @@ public final class ApplicationTest {
                 "secrets",
                 "    [x] 1: Eat more donuts.",
                 "    [ ] 2: Destroy all humans.",
+                "    [ ] myId: Stop drinking coffee",
                 "",
                 "training",
                 "    [x] 3: Four Elements of Simple Design",
@@ -99,6 +101,8 @@ public final class ApplicationTest {
         execute("deadline 4 21/09/2017");
         execute("today");
         readLines("    [ ] 4: SOLID");
+
+
 
         execute("quit");
     }
