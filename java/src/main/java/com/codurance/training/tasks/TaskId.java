@@ -4,7 +4,7 @@ public class TaskId {
     private String id;
 
     public TaskId(String id) {
-        if (id.contains(" ")) {
+        if (id.matches(".*[^A-Za-z0-9].*")) {
             throw new RuntimeException("spaces are not allowed in id");
         }
         this.id = id;
