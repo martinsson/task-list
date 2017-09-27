@@ -106,10 +106,11 @@ public final class TaskList implements Runnable {
             addProject(subcommandRest[1]);
         } else if (subcommand.equals("task")) {
             String[] projectTask = subcommandRest[1].split(" ", 2);
-            addTask(projectTask[0], projectTask[1]);
+            String generatedId = nextId() + "";
+            addTaskWithId(projectTask[0], projectTask[1], new TaskId(generatedId));
         } else if (subcommand.equals("task-with-id")) {
             String[] projectTask = subcommandRest[1].split(" ", 3);
-            addTaskWithId(projectTask[0], projectTask[1], projectTask[2]);
+            addTaskWithId(projectTask[0], projectTask[2], new TaskId(projectTask[1]));
         }
     }
 
@@ -117,26 +118,13 @@ public final class TaskList implements Runnable {
         tasks.put(name, new ArrayList<Task>());
     }
 
-    private void addTask(String project, String description) {
+    private void addTaskWithId(String project, String description, TaskId taskId) {
         List<Task> projectTasks = tasks.get(project);
         if (projectTasks == null) {
             out.printf("Could not find a project with the name \"%s\".", project);
             out.println();
             return;
         }
-        long generatedId = nextId();
-        TaskId id = new TaskId(generatedId);
-        projectTasks.add(new Task(id, description, false));
-    }
-    private void addTaskWithId(String project, String id, String description) {
-        List<Task> projectTasks = tasks.get(project);
-        if (projectTasks == null) {
-            out.printf("Could not find a project with the name \"%s\".", project);
-            out.println();
-            return;
-        }
-        System.out.println("task id " + id);
-        TaskId taskId = new TaskId(id);
         projectTasks.add(new Task(taskId, description, false));
     }
 
