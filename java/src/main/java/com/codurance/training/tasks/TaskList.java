@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public final class TaskList implements Runnable {
@@ -100,18 +101,43 @@ public final class TaskList implements Runnable {
     }
 
     private void add(String commandLine) {
-        String[] subcommandRest = commandLine.split(" ", 2);
-        String subcommand = subcommandRest[0];
-        if (subcommand.equals("project")) {
-            addProject(subcommandRest[1]);
-        } else if (subcommand.equals("task")) {
-            String[] projectTask = subcommandRest[1].split(" ", 2);
-            String generatedId = nextId() + "";
-            addTaskWithId(projectTask[0], projectTask[1], new TaskId(generatedId));
-        } else if (subcommand.equals("task-with-id")) {
-            String[] projectTask = subcommandRest[1].split(" ", 3);
-            addTaskWithId(projectTask[0], projectTask[2], new TaskId(projectTask[1]));
-        }
+        List<Command> addTasks = Arrays.asList(
+                new Command() {
+                    @Override
+                    public boolean canHandle() {
+                        return commandLine.matches("^project .*");
+                    }
+                    @Override
+                    public void handle() {
+                        addProject(commandLine.split(" ", 2)[1]);
+                    }
+                },
+                new Command() {
+                    @Override public boolean canHandle() {
+                        return commandLine.matches("^task .*");
+                    }
+
+                    @Override public void handle() {
+                        String[] projectTask = commandLine.split(" ", 3);
+                        String generatedId = nextId() + "";
+                        addTaskWithId(projectTask[1], projectTask[2], new TaskId(generatedId));
+                    }
+                },
+                new Command() {
+                    @Override public boolean canHandle() {
+                        return commandLine.matches("^task-with-id .*");
+                    }
+
+                    @Override public void handle() {
+                        String[] projectTask = commandLine.split(" ", 4);
+                        addTaskWithId(projectTask[1], projectTask[3], new TaskId(projectTask[2]));
+                    }
+                }
+        );
+        addTasks.stream()
+                .filter(command -> command.canHandle())
+                .findFirst()
+                .ifPresent(command->command.handle());
     }
 
     private void addProject(String name) {
