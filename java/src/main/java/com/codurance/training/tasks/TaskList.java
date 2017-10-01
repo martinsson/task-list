@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public final class TaskList implements Runnable {
@@ -101,38 +100,42 @@ public final class TaskList implements Runnable {
     }
 
     private void add(String commandLine) {
+        Command addProjectCommand = new AddProjectCommand(this, commandLine);
+        Command addTaskCommand = new Command() {
+            @Override
+            public boolean canHandle() {
+                return commandLine.matches("^task .*");
+            }
+
+            @Override
+            public void handle() {
+                String[] projectTask = commandLine.split(" ", 3);
+                String generatedId = nextId() + "";
+                final TaskId taskId = new TaskId(generatedId);
+                String taskDescription = projectTask[2];
+                String project = projectTask[1];
+                addTaskWithId(project, new Task(taskId, taskDescription, false));
+            }
+        };
+        Command AddTaskWithIdCommand = new Command() {
+            @Override
+            public boolean canHandle() {
+                return commandLine.matches("^task-with-id .*");
+            }
+
+            @Override
+            public void handle() {
+                String[] projectTask = commandLine.split(" ", 4);
+                final TaskId taskId = new TaskId(projectTask[2]);
+                String taskDescription = projectTask[3];
+                String project = projectTask[1];
+                addTaskWithId(project, new Task(taskId, taskDescription, false));
+            }
+        };
         List<Command> addTasks = Arrays.asList(
-                new Command() {
-                    @Override
-                    public boolean canHandle() {
-                        return commandLine.matches("^project .*");
-                    }
-                    @Override
-                    public void handle() {
-                        addProject(commandLine.split(" ", 2)[1]);
-                    }
-                },
-                new Command() {
-                    @Override public boolean canHandle() {
-                        return commandLine.matches("^task .*");
-                    }
-
-                    @Override public void handle() {
-                        String[] projectTask = commandLine.split(" ", 3);
-                        String generatedId = nextId() + "";
-                        addTaskWithId(projectTask[1], projectTask[2], new TaskId(generatedId));
-                    }
-                },
-                new Command() {
-                    @Override public boolean canHandle() {
-                        return commandLine.matches("^task-with-id .*");
-                    }
-
-                    @Override public void handle() {
-                        String[] projectTask = commandLine.split(" ", 4);
-                        addTaskWithId(projectTask[1], projectTask[3], new TaskId(projectTask[2]));
-                    }
-                }
+                addProjectCommand,
+                addTaskCommand,
+                AddTaskWithIdCommand
         );
         addTasks.stream()
                 .filter(command -> command.canHandle())
@@ -140,18 +143,18 @@ public final class TaskList implements Runnable {
                 .ifPresent(command->command.handle());
     }
 
-    private void addProject(String name) {
+    public void addProject(String name) {
         tasks.put(name, new ArrayList<Task>());
     }
 
-    private void addTaskWithId(String project, String description, TaskId taskId) {
+    private void addTaskWithId(String project, Task task) {
         List<Task> projectTasks = tasks.get(project);
         if (projectTasks == null) {
             out.printf("Could not find a project with the name \"%s\".", project);
             out.println();
             return;
         }
-        projectTasks.add(new Task(taskId, description, false));
+        projectTasks.add(task);
     }
 
     private void check(TaskId taskId) {
@@ -201,4 +204,5 @@ public final class TaskList implements Runnable {
     private long nextId() {
         return ++lastId;
     }
+
 }
