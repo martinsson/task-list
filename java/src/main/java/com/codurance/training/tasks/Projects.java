@@ -2,7 +2,6 @@ package com.codurance.training.tasks;
 
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Projects {
     private final Map<String, Project> projects = new LinkedHashMap<>();
@@ -18,8 +17,8 @@ public class Projects {
     }
 
     void deadline(TaskDeadline taskDeadline) {
-        getFirst(taskDeadline.id)
-                .ifPresent(task -> task.defineDeadline(taskDeadline));
+        projects.values().stream()
+                .forEach(project -> project.setDeadLineIfExists(taskDeadline));
     }
 
     void show() {
@@ -30,9 +29,9 @@ public class Projects {
 
     void today() {
         MyDate today = new MyDate("21/09/2017");
-        getAllTasks()
-                .filter(task -> task.isDue(today))
-                .forEach(task -> task.printTask(out));
+        projects.values().stream()
+                .forEach(project-> project.showToday(today, out));
+
     }
 
     void addTaskWithId(String projectId, Task task) {
@@ -53,30 +52,13 @@ public class Projects {
         setDone(taskId, false);
     }
 
-    private Optional<Task> getFirst(TaskId id) {
-        return getAllTasks()
-                .filter(task -> task.getId().equals(id))
-                .findFirst();
-    }
-
-    private void setDone(TaskId taskId, boolean done) {
-        Optional<Task> optionalTask = getFirst(taskId);
-        if (optionalTask.isPresent()) {
-            optionalTask.get().setDone(done);
-        } else {
-            out.printf("Could not find a task with an ID of %s.", taskId);
-            out.println();
-        }
-    }
-
-    private Stream<Task> getAllTasks() {
-        return projects.values().stream()
-                .flatMap((project -> project.tasksmap.values().stream()));
-    }
-
-
     void delete(TaskId taskId) {
         projects.values().stream()
                 .forEach(project->project.deleteIfExists(taskId));
+    }
+
+    private void setDone(TaskId taskId, boolean done) {
+        projects.values().stream()
+                .forEach(project -> project.setDoneIfExists(taskId, done));
     }
 }
