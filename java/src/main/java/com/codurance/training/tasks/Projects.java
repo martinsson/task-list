@@ -61,4 +61,8 @@ public class Projects {
         projects.values().stream()
                 .forEach(project -> project.setDoneIfExists(taskId, done));
     }
+
+    public void viewByDate() {
+
+    }
 }

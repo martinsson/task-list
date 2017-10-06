@@ -58,6 +58,8 @@ public final class TaskList implements Runnable {
             case "add":
                 add(commandRest[1]);
                 break;
+            case "view":
+                view(commandRest[1]);
             case "check":
                 projects.check(new TaskId(commandRest[1]));
                 break;
@@ -83,6 +85,10 @@ public final class TaskList implements Runnable {
                 error(command);
                 break;
         }
+    }
+
+    private void view(String viewCommand) {
+        projects.viewByDate();
     }
 
     private void add(String commandLine) {

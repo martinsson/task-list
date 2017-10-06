@@ -133,7 +133,7 @@ public final class TaskListTest {
         execute("add task-with-id secrets customId second secret task");
         execute("add task secrets third secret task");
 
-        execute("show");
+        execute("view by date");
         readLines(
                 "    [ ] 1: Eat more donuts.",
                 "    [ ] 2: first secret task.",
