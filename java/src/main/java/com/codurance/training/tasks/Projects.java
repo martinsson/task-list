@@ -5,32 +5,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class Projects {
-    static class Project {
-        List<Task> tasks = new ArrayList<>();
-        private String id;
-
-        public Project(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void add(Task task) {
-            tasks.add(task);
-        }
-
-        private void show(PrintWriter out) {
-            out.println(id);
-            for (Task task : tasks) {
-                task.printTask(out);
-            }
-            out.println();
-        }
-    }
-    final Map<String, Project> projects = new LinkedHashMap<>();
-    private PrintWriter out;
+    private final Map<String, Project> projects = new LinkedHashMap<>();
+    private final PrintWriter out;
 
     Projects(PrintWriter out) {
         this.out = out;
@@ -95,14 +71,12 @@ public class Projects {
 
     private Stream<Task> getAllTasks() {
         return projects.values().stream()
-                .flatMap((project -> project.tasks.stream()));
+                .flatMap((project -> project.tasksmap.values().stream()));
     }
 
 
     void delete(TaskId taskId) {
-        getFirst(taskId).ifPresent(task -> {
-//            task.getId()
-        });
-
+        projects.values().stream()
+                .forEach(project->project.deleteIfExists(taskId));
     }
 }

@@ -68,7 +68,7 @@ public final class TaskList implements Runnable {
                 TaskId id = new TaskId(commandRest[1]);
                 tasks.deadline(new TaskDeadline(id, deadline));
                 break;
-            case "delete":
+            case "deleteIfExists":
                 tasks.delete(new TaskId(commandRest[1]));
                 break;
             case "today":

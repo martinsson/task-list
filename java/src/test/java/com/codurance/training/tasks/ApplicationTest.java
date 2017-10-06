@@ -114,15 +114,15 @@ public final class ApplicationTest {
         execute("add task secrets Eat more donuts.");
         execute("add task secrets Destroy all humans.");
 
-        execute("delete 1");
-//        execute("show");
-//        readLines(
-//                "secrets",
-//                "    [ ] 2: Destroy all humans.",
-//                ""
-//        );
-//
-//
+        execute("deleteIfExists 1");
+        execute("show");
+        readLines(
+                "secrets",
+                "    [ ] 2: Destroy all humans.",
+                ""
+        );
+
+
 
         execute("quit");
     }
