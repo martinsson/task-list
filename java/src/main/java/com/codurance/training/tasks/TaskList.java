@@ -69,7 +69,7 @@ public final class TaskList implements Runnable {
                 tasks.deadline(new TaskDeadline(id, deadline));
                 break;
             case "delete":
-                delete(new TaskId(commandRest[1]));
+                tasks.delete(new TaskId(commandRest[1]));
                 break;
             case "today":
                 tasks.today();
@@ -78,10 +78,6 @@ public final class TaskList implements Runnable {
                 error(command);
                 break;
         }
-    }
-
-    private void delete(TaskId taskId) {
-
     }
 
     private void add(String commandLine) {
