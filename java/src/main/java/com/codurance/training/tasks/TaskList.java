@@ -13,8 +13,7 @@ public final class TaskList implements Runnable {
     private final Map<String, List<Task>> tasks = new LinkedHashMap<>();
     private final BufferedReader in;
     private final PrintWriter out;
-
-    private long lastId = 0;
+    private final IdGenerator idGenerator = new IdGenerator();
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -101,37 +100,9 @@ public final class TaskList implements Runnable {
 
     private void add(String commandLine) {
         Command addProjectCommand = new AddProjectCommand(this, commandLine);
-        Command addTaskCommand = new Command() {
-            @Override
-            public boolean canHandle() {
-                return commandLine.matches("^task .*");
-            }
+        Command addTaskCommand = new AddTaskCommand(commandLine);
+        Command AddTaskWithIdCommand = new AddTaskWithIdCommand(this, commandLine);
 
-            @Override
-            public void handle() {
-                String[] projectTask = commandLine.split(" ", 3);
-                String generatedId = nextId() + "";
-                final TaskId taskId = new TaskId(generatedId);
-                String taskDescription = projectTask[2];
-                String project = projectTask[1];
-                addTaskWithId(project, new Task(taskId, taskDescription, false));
-            }
-        };
-        Command AddTaskWithIdCommand = new Command() {
-            @Override
-            public boolean canHandle() {
-                return commandLine.matches("^task-with-id .*");
-            }
-
-            @Override
-            public void handle() {
-                String[] projectTask = commandLine.split(" ", 4);
-                final TaskId taskId = new TaskId(projectTask[2]);
-                String taskDescription = projectTask[3];
-                String project = projectTask[1];
-                addTaskWithId(project, new Task(taskId, taskDescription, false));
-            }
-        };
         List<Command> addTasks = Arrays.asList(
                 addProjectCommand,
                 addTaskCommand,
@@ -147,7 +118,7 @@ public final class TaskList implements Runnable {
         tasks.put(name, new ArrayList<Task>());
     }
 
-    private void addTaskWithId(String project, Task task) {
+    void addTaskWithId(String project, Task task) {
         List<Task> projectTasks = tasks.get(project);
         if (projectTasks == null) {
             out.printf("Could not find a project with the name \"%s\".", project);
@@ -201,8 +172,26 @@ public final class TaskList implements Runnable {
         out.println();
     }
 
-    private long nextId() {
-        return ++lastId;
-    }
+    private class AddTaskCommand implements Command {
+        private final String commandLine;
 
+        public AddTaskCommand(String commandLine) {
+            this.commandLine = commandLine;
+        }
+
+        @Override
+        public boolean canHandle() {
+            return commandLine.matches("^task .*");
+        }
+
+        @Override
+        public void handle() {
+            String[] projectTask = commandLine.split(" ", 3);
+            String generatedId = idGenerator.nextId() + "";
+            final TaskId taskId = new TaskId(generatedId);
+            String taskDescription = projectTask[2];
+            String project = projectTask[1];
+            addTaskWithId(project, new Task(taskId, taskDescription, false));
+        }
+    }
 }
