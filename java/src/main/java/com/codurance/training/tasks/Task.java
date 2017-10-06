@@ -14,32 +14,20 @@ public final class Task {
         this.done = done;
     }
 
-    public TaskId getId() {
+    TaskId getId() {
         return id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
+    void setDone(boolean done) {
         this.done = done;
     }
 
-    public MyDate getDeadline() {
-        return deadline;
-    }
-
-    public boolean isDue(MyDate onDate) {
+    boolean isDue(MyDate onDate) {
         return onDate != null && onDate.equals(deadline);
     }
 
     void printTask(PrintWriter out) {
-        out.printf("    [%c] %s: %s%n", (isDone() ? 'x' : ' '), getId().toString(), getDescription());
+        out.printf("    [%c] %s: %s%n", (done ? 'x' : ' '), getId().toString(), description);
     }
 
     void defineDeadline(TaskDeadline taskDeadline) {

@@ -61,7 +61,7 @@ public class Projects {
                 .filter(task -> task.getId().equals(id))
                 .findFirst();
     }
-    
+
     private void setDone(TaskId taskId, boolean done) {
         Optional<Task> optionalTask = getFirst(taskId);
         if (optionalTask.isPresent()) {
