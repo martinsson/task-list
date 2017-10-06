@@ -11,7 +11,7 @@ public final class TaskList implements Runnable {
 
     private final BufferedReader in;
     private final PrintWriter out;
-    final Tasks tasks;
+    final Projects tasks;
     private IdGenerator idGenerator = new IdGenerator();
 
     public static void main(String[] args) throws Exception {
@@ -23,7 +23,7 @@ public final class TaskList implements Runnable {
     public TaskList(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
-        tasks = new Tasks(writer);
+        tasks = new Projects(writer);
     }
 
     public void run() {
@@ -54,10 +54,10 @@ public final class TaskList implements Runnable {
                 add(commandRest[1]);
                 break;
             case "check":
-                tasks.check(new TaskId(commandRest[1]), this);
+                tasks.check(new TaskId(commandRest[1]));
                 break;
             case "uncheck":
-                tasks.uncheck(new TaskId(commandRest[1]), this);
+                tasks.uncheck(new TaskId(commandRest[1]));
                 break;
             case "help":
                 help();
@@ -66,7 +66,7 @@ public final class TaskList implements Runnable {
                 commandRest = commandLine.split(" ",3);
                 MyDate deadline = new MyDate(commandRest[2]);
                 TaskId id = new TaskId(commandRest[1]);
-                tasks.deadline(new TaskDeadline(id, deadline), this);
+                tasks.deadline(new TaskDeadline(id, deadline));
                 break;
             case "delete":
                 delete(new TaskId(commandRest[1]));

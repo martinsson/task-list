@@ -7,36 +7,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class Tasks {
-    final Map<String, List<Task>> tasks = new LinkedHashMap<String, List<Task>>();
+public class Projects {
+    final Map<String, List<Task>> projects = new LinkedHashMap<String, List<Task>>();
     private PrintWriter out;
 
-    public Tasks(PrintWriter out) {
+    public Projects(PrintWriter out) {
         this.out = out;
     }
 
     public void addProject(String name) {
-        tasks.put(name, new ArrayList<Task>());
+        projects.put(name, new ArrayList<Task>());
     }
 
     Stream<Task> getAllTasks() {
-        return tasks.entrySet().stream().flatMap((project -> project.getValue().stream()));
+        return projects.entrySet().stream().flatMap((project -> project.getValue().stream()));
     }
 
-    Task findTask(TaskId id, TaskList taskList) {
+    Task findTask(TaskId id) {
         return getAllTasks()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 
-    void deadline(TaskDeadline taskDeadline, TaskList taskList) {
-        Task task = findTask(taskDeadline.id, taskList);
+    void deadline(TaskDeadline taskDeadline) {
+        Task task = findTask(taskDeadline.id);
         task.setDeadline(taskDeadline.deadline());
     }
 
     void show() {
-        for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
+        for (Map.Entry<String, List<Task>> project : projects.entrySet()) {
             out.println(project.getKey());
             for (Task task : project.getValue()) {
                 task.printTask(out);
@@ -51,8 +51,8 @@ public class Tasks {
                 .forEach(task -> task.printTask(out));
     }
 
-    void addTaskWithId(String project, Task task, TaskList taskList) {
-        List<Task> projectTasks = tasks.get(project);
+    void addTaskWithId(String project, Task task) {
+        List<Task> projectTasks = projects.get(project);
         if (projectTasks == null) {
             out.printf("Could not find a project with the name \"%s\".", project);
             out.println();
@@ -61,8 +61,8 @@ public class Tasks {
         projectTasks.add(task);
     }
 
-    void setDone(TaskId taskId, boolean done, TaskList taskList) {
-        Task tsk = findTask(taskId, taskList);
+    void setDone(TaskId taskId, boolean done) {
+        Task tsk = findTask(taskId);
         if (tsk == null) {
             out.printf("Could not find a task with an ID of %s.", taskId);
             out.println();
@@ -71,11 +71,11 @@ public class Tasks {
         }
     }
 
-    void check(TaskId taskId, TaskList taskList) {
-        setDone(taskId, true, taskList);
+    void check(TaskId taskId) {
+        setDone(taskId, true);
     }
 
-    void uncheck(TaskId taskId, TaskList taskList) {
-        setDone(taskId, false, taskList);
+    void uncheck(TaskId taskId) {
+        setDone(taskId, false);
     }
 }

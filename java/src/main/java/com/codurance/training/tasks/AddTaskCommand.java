@@ -23,6 +23,6 @@ class AddTaskCommand implements Command {
         final TaskId taskId = new TaskId(generatedId);
         String taskDescription = projectTask[2];
         String project = projectTask[1];
-        taskList.tasks.addTaskWithId(project, new Task(taskId, taskDescription, false), taskList);
+        taskList.tasks.addTaskWithId(project, new Task(taskId, taskDescription, false));
     }
 }
