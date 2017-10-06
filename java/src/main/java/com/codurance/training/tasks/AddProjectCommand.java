@@ -19,6 +19,6 @@ class AddProjectCommand implements Command {
     @Override
     public void handle() {
         String project = commandLine.split(" ", 2)[1];
-        taskList.addProject(project);
+        taskList.tasks.addProject(project);
     }
 }
