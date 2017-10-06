@@ -68,6 +68,9 @@ public final class TaskList implements Runnable {
                 TaskId id = new TaskId(commandRest[1]);
                 deadline(new TaskDeadline(id, deadline));
                 break;
+            case "delete":
+                delete(new TaskId(commandRest[1]));
+                break;
             case "today":
                 today();
                 break;
@@ -75,6 +78,10 @@ public final class TaskList implements Runnable {
                 error(command);
                 break;
         }
+    }
+
+    private void delete(TaskId taskId) {
+
     }
 
     private void today() {

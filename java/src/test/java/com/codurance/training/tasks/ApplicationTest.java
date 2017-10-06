@@ -8,6 +8,7 @@ import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static java.lang.System.lineSeparator;
@@ -101,6 +102,25 @@ public final class ApplicationTest {
         execute("deadline 4 21/09/2017");
         execute("today");
         readLines("    [ ] 4: SOLID");
+
+
+
+        execute("quit");
+    }
+
+    @Test(timeout = 1000) @Ignore public void
+    it_sdworks() throws IOException {
+        execute("add project secrets");
+        execute("add task secrets Eat more donuts.");
+        execute("add task secrets Destroy all humans.");
+
+        execute("delete 1");
+        execute("show");
+        readLines(
+                "secrets",
+                "    [ ] 2: Destroy all humans.",
+                ""
+        );
 
 
 
