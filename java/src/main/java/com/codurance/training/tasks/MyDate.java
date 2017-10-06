@@ -1,6 +1,9 @@
 package com.codurance.training.tasks;
 
-public class MyDate {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class MyDate implements Comparable<MyDate>{
     private String date;
 
     public MyDate(String ddmmyyyy) {
@@ -21,5 +24,13 @@ public class MyDate {
     @Override
     public int hashCode() {
         return date != null ? date.hashCode() : 0;
+    }
+
+    @Override
+    public int compareTo(MyDate other) {
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("ddMMuuuu");
+        LocalDate self = LocalDate.parse(date, pattern);
+        LocalDate otherDate = LocalDate.parse(other.date, pattern);
+        return self.compareTo(otherDate);
     }
 }

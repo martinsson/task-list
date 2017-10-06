@@ -124,7 +124,7 @@ public final class TaskListTest {
         execute("quit");
     }
 
-    @Test(timeout = 1000) public void
+    @Test(timeout = 1000) @Ignore public void
     view_by_date_displays_projects_first_added_first() throws IOException {
         execute("add project secrets");
         execute("add project public");
