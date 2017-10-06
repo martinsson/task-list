@@ -6,7 +6,7 @@ public class IdGenerator {
     public IdGenerator() {
     }
 
-    long nextId() {
+    public long nextId() {
         return ++lastId;
     }
 }

@@ -1,5 +1,10 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.commands.AddProjectCommand;
+import com.codurance.training.tasks.commands.AddTaskCommand;
+import com.codurance.training.tasks.commands.AddTaskWithIdCommand;
+import com.codurance.training.tasks.commands.Command;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +16,7 @@ public final class TaskList implements Runnable {
 
     private final BufferedReader in;
     private final PrintWriter out;
-    final Projects tasks;
+    public final Projects projects;
     private IdGenerator idGenerator = new IdGenerator();
 
     public static void main(String[] args) throws Exception {
@@ -23,7 +28,7 @@ public final class TaskList implements Runnable {
     public TaskList(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
-        tasks = new Projects(writer);
+        projects = new Projects(writer);
     }
 
     public void run() {
@@ -48,16 +53,16 @@ public final class TaskList implements Runnable {
         String command = commandRest[0];
         switch (command) {
             case "show":
-                tasks.show();
+                projects.show();
                 break;
             case "add":
                 add(commandRest[1]);
                 break;
             case "check":
-                tasks.check(new TaskId(commandRest[1]));
+                projects.check(new TaskId(commandRest[1]));
                 break;
             case "uncheck":
-                tasks.uncheck(new TaskId(commandRest[1]));
+                projects.uncheck(new TaskId(commandRest[1]));
                 break;
             case "help":
                 help();
@@ -66,13 +71,13 @@ public final class TaskList implements Runnable {
                 commandRest = commandLine.split(" ",3);
                 MyDate deadline = new MyDate(commandRest[2]);
                 TaskId id = new TaskId(commandRest[1]);
-                tasks.deadline(new TaskDeadline(id, deadline));
+                projects.deadline(new TaskDeadline(id, deadline));
                 break;
             case "deleteIfExists":
-                tasks.delete(new TaskId(commandRest[1]));
+                projects.delete(new TaskId(commandRest[1]));
                 break;
             case "today":
-                tasks.today();
+                projects.today();
                 break;
             default:
                 error(command);
@@ -81,9 +86,9 @@ public final class TaskList implements Runnable {
     }
 
     private void add(String commandLine) {
-        Command addProjectCommand = new AddProjectCommand(this, commandLine);
-        Command addTaskCommand = new AddTaskCommand(this, commandLine, idGenerator);
-        Command AddTaskWithIdCommand = new AddTaskWithIdCommand(this, commandLine);
+        Command addProjectCommand = new AddProjectCommand(projects, commandLine);
+        Command addTaskCommand = new AddTaskCommand(projects, commandLine, idGenerator);
+        Command AddTaskWithIdCommand = new AddTaskWithIdCommand(projects, commandLine);
 
         List<Command> addCommands = Arrays.asList(
                 addProjectCommand,

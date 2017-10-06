@@ -11,7 +11,7 @@ public class Projects {
         this.out = out;
     }
 
-    void addProject(String name) {
+    public void addProject(String name) {
         Project project = new Project(name);
         projects.put(project.getId(), project);
     }
@@ -34,7 +34,7 @@ public class Projects {
 
     }
 
-    void addTaskWithId(String projectId, Task task) {
+    public void addTaskWithId(String projectId, Task task) {
         Project project = projects.get(projectId);
         if (project == null) {
             out.printf("Could not find a project with the name \"%s\".", projectId);

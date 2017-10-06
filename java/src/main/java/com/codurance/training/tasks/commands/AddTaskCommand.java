@@ -1,12 +1,14 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.commands;
 
-class AddTaskCommand implements Command {
-    private TaskList taskList;
+import com.codurance.training.tasks.*;
+
+public class AddTaskCommand implements Command {
     private final IdGenerator idGenerator;
     private final String commandLine;
+    private Projects projects;
 
-    public AddTaskCommand(TaskList taskList, String commandLine, IdGenerator idGenerator) {
-        this.taskList = taskList;
+    public AddTaskCommand(Projects projects, String commandLine, IdGenerator idGenerator) {
+        this.projects = projects;
         this.commandLine = commandLine;
         this.idGenerator = idGenerator;
     }
@@ -23,6 +25,6 @@ class AddTaskCommand implements Command {
         final TaskId taskId = new TaskId(generatedId);
         String taskDescription = projectTask[2];
         String project = projectTask[1];
-        taskList.tasks.addTaskWithId(project, new Task(taskId, taskDescription, false));
+        projects.addTaskWithId(project, new Task(taskId, taskDescription, false));
     }
 }

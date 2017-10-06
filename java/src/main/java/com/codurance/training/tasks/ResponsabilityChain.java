@@ -1,9 +1,9 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.commands.Command;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ResponsabilityChain {
 
