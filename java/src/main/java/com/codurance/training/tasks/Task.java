@@ -30,10 +30,6 @@ public final class Task {
         this.done = done;
     }
 
-    public void setDeadline(MyDate deadline) {
-        this.deadline = deadline;
-    }
-
     public MyDate getDeadline() {
         return deadline;
     }
@@ -44,5 +40,9 @@ public final class Task {
 
     void printTask(PrintWriter out) {
         out.printf("    [%c] %s: %s%n", (isDone() ? 'x' : ' '), getId().toString(), getDescription());
+    }
+
+    void defineDeadline(TaskDeadline taskDeadline) {
+        this.deadline = taskDeadline.deadline();
     }
 }

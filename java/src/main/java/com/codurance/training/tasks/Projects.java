@@ -1,38 +1,24 @@
 package com.codurance.training.tasks;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Projects {
     final Map<String, List<Task>> projects = new LinkedHashMap<String, List<Task>>();
     private PrintWriter out;
 
-    public Projects(PrintWriter out) {
+    Projects(PrintWriter out) {
         this.out = out;
     }
 
-    public void addProject(String name) {
+    void addProject(String name) {
         projects.put(name, new ArrayList<Task>());
     }
 
-    Stream<Task> getAllTasks() {
-        return projects.entrySet().stream().flatMap((project -> project.getValue().stream()));
-    }
-
-    Task findTask(TaskId id) {
-        return getAllTasks()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
     void deadline(TaskDeadline taskDeadline) {
-        Task task = findTask(taskDeadline.id);
-        task.setDeadline(taskDeadline.deadline());
+        getFirst(taskDeadline.id)
+                .ifPresent(task -> task.defineDeadline(taskDeadline));
     }
 
     void show() {
@@ -47,7 +33,8 @@ public class Projects {
 
     void today() {
         MyDate today = new MyDate("21/09/2017");
-        getAllTasks().filter(task -> task.isDue(today))
+        getAllTasks()
+                .filter(task -> task.isDue(today))
                 .forEach(task -> task.printTask(out));
     }
 
@@ -61,16 +48,6 @@ public class Projects {
         projectTasks.add(task);
     }
 
-    void setDone(TaskId taskId, boolean done) {
-        Task tsk = findTask(taskId);
-        if (tsk == null) {
-            out.printf("Could not find a task with an ID of %s.", taskId);
-            out.println();
-        } else {
-            tsk.setDone(done);
-        }
-    }
-
     void check(TaskId taskId) {
         setDone(taskId, true);
     }
@@ -78,4 +55,27 @@ public class Projects {
     void uncheck(TaskId taskId) {
         setDone(taskId, false);
     }
+
+    private Optional<Task> getFirst(TaskId id) {
+        return getAllTasks()
+                .filter(task -> task.getId().equals(id))
+                .findFirst();
+    }
+    
+    private void setDone(TaskId taskId, boolean done) {
+        Optional<Task> optionalTask = getFirst(taskId);
+        if (optionalTask.isPresent()) {
+            optionalTask.get().setDone(done);
+        } else {
+            out.printf("Could not find a task with an ID of %s.", taskId);
+            out.println();
+        }
+    }
+
+    private Stream<Task> getAllTasks() {
+        return projects.entrySet().stream().flatMap((project -> project.getValue().stream()));
+    }
+
+
+
 }
