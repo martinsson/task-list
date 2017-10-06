@@ -14,7 +14,7 @@ public final class TaskList implements Runnable {
     private final BufferedReader in;
     private final PrintWriter out;
     private IdGenerator idGenerator = new IdGenerator();
-    
+
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
@@ -100,7 +100,6 @@ public final class TaskList implements Runnable {
 
     private void add(String commandLine) {
         Command addProjectCommand = new AddProjectCommand(this, commandLine);
-
         Command addTaskCommand = new AddTaskCommand(this, commandLine, idGenerator);
         Command AddTaskWithIdCommand = new AddTaskWithIdCommand(this, commandLine);
 
