@@ -2,8 +2,8 @@ package com.codurance.training.tasks.commands;
 
 import com.codurance.training.tasks.*;
 
-import static com.codurance.training.tasks.CommandLine.MainCommand.add;
-import static com.codurance.training.tasks.CommandLine.SubCommand.taskWithId;
+import static com.codurance.training.tasks.MainCommand.add;
+import static com.codurance.training.tasks.SubCommand.taskWithId;
 
 public class AddTaskWithIdCommand implements Command {
     private final String commandLine;

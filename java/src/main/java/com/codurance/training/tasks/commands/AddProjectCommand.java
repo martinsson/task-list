@@ -4,8 +4,8 @@ import com.codurance.training.tasks.CommandLine;
 import com.codurance.training.tasks.Project;
 import com.codurance.training.tasks.Projects;
 
-import static com.codurance.training.tasks.CommandLine.MainCommand.add;
-import static com.codurance.training.tasks.CommandLine.SubCommand.project;
+import static com.codurance.training.tasks.MainCommand.add;
+import static com.codurance.training.tasks.SubCommand.project;
 
 public class AddProjectCommand implements Command {
 
