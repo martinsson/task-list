@@ -11,11 +11,9 @@ public class AddProjectCommand implements Command {
 
 
     private Projects projects;
-    private final String commandLine;
 
-    public AddProjectCommand(Projects projects, String commandLine) {
+    public AddProjectCommand(Projects projects) {
         this.projects = projects;
-        this.commandLine = commandLine;
     }
 
     @Override
@@ -25,7 +23,6 @@ public class AddProjectCommand implements Command {
 
     @Override
     public void handle(CommandLine cmdLine) {
-        String project = commandLine.split(" ", 2)[1];
-        projects.addProject(new Project(project));
+        projects.addProject(new Project(cmdLine.getProjectId()));
     }
 }

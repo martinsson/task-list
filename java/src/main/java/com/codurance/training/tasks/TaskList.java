@@ -57,7 +57,7 @@ public final class TaskList implements Runnable {
                 projects.show();
                 break;
             case "add":
-                add(commandRest[1], cmdLine);
+                add(cmdLine);
                 break;
             case "view":
                 view(commandRest[1]);
@@ -92,12 +92,13 @@ public final class TaskList implements Runnable {
         projects.viewByDate();
     }
 
-    private void add(String commandLine, CommandLine cmdLine) {
-        Command addProjectCommand = new AddProjectCommand(projects, commandLine);
+    private void add(CommandLine cmdLine) {
+        Command addProjectCommand = new AddProjectCommand(projects);
         Command addTaskCommand = new AddTaskCommand(projects, idGenerator);
         Command AddTaskWithIdCommand = new AddTaskWithIdCommand(projects);
 
-        List<Command> addCommands = Arrays.asList(
+        List<Command> addCommands;
+        addCommands = Arrays.asList(
                 addProjectCommand,
                 addTaskCommand,
                 AddTaskWithIdCommand

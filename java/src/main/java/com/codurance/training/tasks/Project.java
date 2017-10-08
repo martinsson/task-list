@@ -11,8 +11,8 @@ public class Project {
     private Map<TaskId, Task> tasks = new HashMap<>();
     private ProjectId id;
 
-    public Project(String id) {
-        this.id = new ProjectId(id);
+    public Project(ProjectId projectId) {
+        this.id = projectId;
 
     }
 
