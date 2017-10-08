@@ -1,6 +1,8 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.input;
 
-import com.codurance.training.tasks.commands.ProjectId;
+import com.codurance.training.tasks.Task;
+import com.codurance.training.tasks.TaskId;
+import com.codurance.training.tasks.ProjectId;
 
 public class CommandLine {
 

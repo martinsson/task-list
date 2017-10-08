@@ -1,9 +1,10 @@
 package com.codurance.training.tasks.commands;
 
 import com.codurance.training.tasks.*;
+import com.codurance.training.tasks.input.CommandLine;
 
-import static com.codurance.training.tasks.MainCommand.add;
-import static com.codurance.training.tasks.SubCommand.taskWithId;
+import static com.codurance.training.tasks.input.MainCommand.add;
+import static com.codurance.training.tasks.input.SubCommand.taskWithId;
 
 public class AddTaskWithIdCommand implements Command {
     private Projects projects;

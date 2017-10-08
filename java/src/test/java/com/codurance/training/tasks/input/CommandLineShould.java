@@ -1,11 +1,15 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.input;
 
-import com.codurance.training.tasks.commands.ProjectId;
+import com.codurance.training.tasks.ProjectId;
+import com.codurance.training.tasks.Task;
+import com.codurance.training.tasks.TaskId;
+import com.codurance.training.tasks.input.CommandLine;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static com.codurance.training.tasks.MainCommand.add;
-import static com.codurance.training.tasks.SubCommand.task;
-import static com.codurance.training.tasks.SubCommand.taskWithId;
+import static com.codurance.training.tasks.input.MainCommand.add;
+import static com.codurance.training.tasks.input.SubCommand.task;
+import static com.codurance.training.tasks.input.SubCommand.taskWithId;
 import static org.junit.Assert.*;
 
 public class CommandLineShould {
@@ -21,14 +25,14 @@ public class CommandLineShould {
     @Test
     public void extractTheProjectId() throws Exception {
         CommandLine commandLine = new CommandLine("add task training Four Elements of Simple Design");
-        assertEquals(new ProjectId("training"), commandLine.getProjectId());
+        Assert.assertEquals(new ProjectId("training"), commandLine.getProjectId());
     }
 
     @Test
     public void extractTheTask() throws Exception {
         CommandLine commandLine = new CommandLine("add task training Four Elements of Simple Design");
         TaskId generatedId = new TaskId("generatedId");
-        assertEquals(new Task(generatedId, "Four Elements of Simple Design"), commandLine.getTask(generatedId));
+        Assert.assertEquals(new Task(generatedId, "Four Elements of Simple Design"), commandLine.getTask(generatedId));
     }
 
     @Test

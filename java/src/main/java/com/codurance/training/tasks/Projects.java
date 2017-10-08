@@ -1,7 +1,5 @@
 package com.codurance.training.tasks;
 
-import com.codurance.training.tasks.commands.ProjectId;
-
 import java.io.PrintWriter;
 import java.util.*;
 

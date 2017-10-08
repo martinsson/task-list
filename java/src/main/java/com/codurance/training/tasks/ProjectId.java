@@ -1,4 +1,4 @@
-package com.codurance.training.tasks.commands;
+package com.codurance.training.tasks;
 
 public class ProjectId {
     public String projectId;

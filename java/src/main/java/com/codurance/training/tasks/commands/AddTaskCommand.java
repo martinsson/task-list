@@ -1,17 +1,18 @@
 package com.codurance.training.tasks.commands;
 
 import com.codurance.training.tasks.*;
+import com.codurance.training.tasks.input.CommandLine;
 
-import static com.codurance.training.tasks.MainCommand.add;
-import static com.codurance.training.tasks.SubCommand.task;
+import static com.codurance.training.tasks.input.MainCommand.add;
+import static com.codurance.training.tasks.input.SubCommand.task;
 
 public class AddTaskCommand implements Command {
-    private final IdGenerator idGenerator;
     private Projects projects;
+    private final IdGenerator idGenerator;
 
-    public AddTaskCommand(Projects projects, IdGenerator idGenerator) {
+    public AddTaskCommand(Projects projects) {
         this.projects = projects;
-        this.idGenerator = idGenerator;
+        this.idGenerator = new AddTaskCommand.IdGenerator();
     }
 
     @Override
@@ -25,5 +26,16 @@ public class AddTaskCommand implements Command {
         TaskId taskId = new TaskId(idGenerator.nextId());
         Task task = cmdLine.getTask(taskId);
         projects.addTaskWithId(projectId, task);
+    }
+
+    public static class IdGenerator {
+        private long lastId = 0;
+
+        public IdGenerator() {
+        }
+
+        public long nextId() {
+            return ++lastId;
+        }
     }
 }

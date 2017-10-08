@@ -1,11 +1,11 @@
 package com.codurance.training.tasks.commands;
 
-import com.codurance.training.tasks.CommandLine;
+import com.codurance.training.tasks.input.CommandLine;
 import com.codurance.training.tasks.Project;
 import com.codurance.training.tasks.Projects;
 
-import static com.codurance.training.tasks.MainCommand.add;
-import static com.codurance.training.tasks.SubCommand.project;
+import static com.codurance.training.tasks.input.MainCommand.add;
+import static com.codurance.training.tasks.input.SubCommand.project;
 
 public class AddProjectCommand implements Command {
 

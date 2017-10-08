@@ -1,4 +1,4 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.experiments;
 
 import com.codurance.training.tasks.commands.Command;
 
