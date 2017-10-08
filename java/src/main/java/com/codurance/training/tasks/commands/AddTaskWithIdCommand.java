@@ -1,9 +1,8 @@
 package com.codurance.training.tasks.commands;
 
-import com.codurance.training.tasks.Projects;
-import com.codurance.training.tasks.Task;
-import com.codurance.training.tasks.TaskId;
-import com.codurance.training.tasks.TaskList;
+import com.codurance.training.tasks.*;
+
+import static com.codurance.training.tasks.CommandLine.MainCommand.add;
 
 public class AddTaskWithIdCommand implements Command {
     private final String commandLine;
@@ -15,12 +14,12 @@ public class AddTaskWithIdCommand implements Command {
     }
 
     @Override
-    public boolean canHandle() {
-        return commandLine.matches("^task-with-id .*");
+    public boolean canHandle(CommandLine cmdLine) {
+        return cmdLine.is(add, CommandLine.SubCommand.taskWithId);
     }
 
     @Override
-    public void handle() {
+    public void handle(CommandLine cmdLine) {
         String[] projectTask = commandLine.split(" ", 4);
         final TaskId taskId = new TaskId(projectTask[2]);
         String taskDescription = projectTask[3];

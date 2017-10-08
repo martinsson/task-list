@@ -19,7 +19,7 @@ public class ResponsabilityChain {
             return;
         } else {
             Command command = commands.removeFirst();
-            command.handle(/*this::handle*/);
+//            command.handle(/*this::handle*/cmdLine);
         }
 
 

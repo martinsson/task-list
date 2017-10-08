@@ -49,6 +49,7 @@ public final class TaskList implements Runnable {
     }
 
     private void execute(String commandLine) {
+        CommandLine cmdLine = new CommandLine(commandLine);
         String[] commandRest = commandLine.split(" ",2);
         String command = commandRest[0];
         switch (command) {
@@ -56,7 +57,7 @@ public final class TaskList implements Runnable {
                 projects.show();
                 break;
             case "add":
-                add(commandRest[1]);
+                add(commandRest[1], cmdLine);
                 break;
             case "view":
                 view(commandRest[1]);
@@ -91,7 +92,7 @@ public final class TaskList implements Runnable {
         projects.viewByDate();
     }
 
-    private void add(String commandLine) {
+    private void add(String commandLine, CommandLine cmdLine) {
         Command addProjectCommand = new AddProjectCommand(projects, commandLine);
         Command addTaskCommand = new AddTaskCommand(projects, commandLine, idGenerator);
         Command AddTaskWithIdCommand = new AddTaskWithIdCommand(projects, commandLine);
@@ -102,9 +103,9 @@ public final class TaskList implements Runnable {
                 AddTaskWithIdCommand
         );
         addCommands.stream()
-                .filter(command -> command.canHandle())
+                .filter(command -> command.canHandle(cmdLine))
                 .findFirst()
-                .ifPresent(command->command.handle());
+                .ifPresent(command->command.handle(cmdLine));
     }
 
     private void help() {
