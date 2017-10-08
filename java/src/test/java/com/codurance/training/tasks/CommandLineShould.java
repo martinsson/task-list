@@ -27,7 +27,15 @@ public class CommandLineShould {
     @Test
     public void extractTheTask() throws Exception {
         CommandLine commandLine = new CommandLine("add task training Four Elements of Simple Design");
-        TaskId givenId = new TaskId("givenId");
-        assertEquals(new Task(givenId, "Four Elements of Simple Design"), commandLine.getTask(givenId));
+        TaskId generatedId = new TaskId("generatedId");
+        assertEquals(new Task(generatedId, "Four Elements of Simple Design"), commandLine.getTask(generatedId));
     }
+
+    @Test
+    public void extractTheTaskWithId() throws Exception {
+        CommandLine commandLine = new CommandLine("add task-with-id secrets givenId Stop drinking coffee");
+        TaskId givenId = new TaskId("givenId");
+        assertEquals(new Task(givenId, "Stop drinking coffee"), commandLine.getTask());
+    }
+
 }

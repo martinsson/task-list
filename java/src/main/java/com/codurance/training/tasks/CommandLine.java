@@ -24,6 +24,15 @@ public class CommandLine {
         return commandLine.matches("^" + mainCommand + " " + subCommand + " .*");
     }
 
+
+    public Task getTask() {
+        String[] parts = splitInParts(5);
+        String description = parts[4];
+        TaskId taskId = new TaskId(parts[3]);
+        return new Task(taskId, description);
+
+    }
+
     private String[] splitInParts(int nbParts) {
         return commandLine.split(" ", nbParts);
     }

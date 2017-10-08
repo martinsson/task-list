@@ -9,7 +9,7 @@ public class AddTaskCommand implements Command {
     private final IdGenerator idGenerator;
     private Projects projects;
 
-    public AddTaskCommand(Projects projects, String commandLine, IdGenerator idGenerator) {
+    public AddTaskCommand(Projects projects, IdGenerator idGenerator) {
         this.projects = projects;
         this.idGenerator = idGenerator;
     }

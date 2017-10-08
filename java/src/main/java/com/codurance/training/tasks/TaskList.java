@@ -94,8 +94,8 @@ public final class TaskList implements Runnable {
 
     private void add(String commandLine, CommandLine cmdLine) {
         Command addProjectCommand = new AddProjectCommand(projects, commandLine);
-        Command addTaskCommand = new AddTaskCommand(projects, commandLine, idGenerator);
-        Command AddTaskWithIdCommand = new AddTaskWithIdCommand(projects, commandLine);
+        Command addTaskCommand = new AddTaskCommand(projects, idGenerator);
+        Command AddTaskWithIdCommand = new AddTaskWithIdCommand(projects);
 
         List<Command> addCommands = Arrays.asList(
                 addProjectCommand,
