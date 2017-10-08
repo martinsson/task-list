@@ -3,6 +3,7 @@ package com.codurance.training.tasks.commands;
 import com.codurance.training.tasks.*;
 
 import static com.codurance.training.tasks.CommandLine.MainCommand.add;
+import static com.codurance.training.tasks.CommandLine.SubCommand.taskWithId;
 
 public class AddTaskWithIdCommand implements Command {
     private final String commandLine;
@@ -15,7 +16,7 @@ public class AddTaskWithIdCommand implements Command {
 
     @Override
     public boolean canHandle(CommandLine cmdLine) {
-        return cmdLine.is(add, CommandLine.SubCommand.taskWithId);
+        return cmdLine.is(add, taskWithId);
     }
 
     @Override
@@ -24,6 +25,7 @@ public class AddTaskWithIdCommand implements Command {
         final TaskId taskId = new TaskId(projectTask[2]);
         String taskDescription = projectTask[3];
         String project = projectTask[1];
+        ProjectId projectId = new ProjectId(project);
         projects.addTaskWithId(project, new Task(taskId, taskDescription, false));
     }
 }

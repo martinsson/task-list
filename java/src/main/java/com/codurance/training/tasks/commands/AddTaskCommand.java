@@ -28,6 +28,7 @@ public class AddTaskCommand implements Command {
         String[] projectTask = commandLine.split(" ", 3);
         String taskDescription = projectTask[2];
         String project = projectTask[1];
+        ProjectId projectId = new ProjectId(project);
         projects.addTaskWithId(project, new Task(taskId, taskDescription, false));
     }
 }

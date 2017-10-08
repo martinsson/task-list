@@ -5,11 +5,11 @@ import java.util.*;
 
 import static java.lang.System.out;
 
-class Project {
+public class Project {
     private Map<TaskId, Task> tasks = new HashMap<>();
     private String id;
 
-    Project(String id) {
+    public Project(String id) {
         this.id = id;
     }
 

@@ -11,8 +11,7 @@ public class Projects {
         this.out = out;
     }
 
-    public void addProject(String name) {
-        Project project = new Project(name);
+    public void addProject(Project project) {
         projects.put(project.getId(), project);
     }
 
