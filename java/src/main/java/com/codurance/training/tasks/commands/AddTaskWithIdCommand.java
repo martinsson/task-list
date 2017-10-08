@@ -26,6 +26,6 @@ public class AddTaskWithIdCommand implements Command {
         String taskDescription = projectTask[3];
         String project = projectTask[1];
         ProjectId projectId = new ProjectId(project);
-        projects.addTaskWithId(project, new Task(taskId, taskDescription, false));
+        projects.addTaskWithId(projectId, new Task(taskId, taskDescription, false));
     }
 }

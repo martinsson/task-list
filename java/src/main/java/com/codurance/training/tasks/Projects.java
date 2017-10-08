@@ -1,10 +1,12 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.commands.ProjectId;
+
 import java.io.PrintWriter;
 import java.util.*;
 
 public class Projects {
-    private final Map<String, Project> projects = new LinkedHashMap<>();
+    private final Map<ProjectId, Project> projects = new LinkedHashMap<>();
     private final PrintWriter out;
 
     Projects(PrintWriter out) {
@@ -33,7 +35,7 @@ public class Projects {
 
     }
 
-    public void addTaskWithId(String projectId, Task task) {
+    public void addTaskWithId(ProjectId projectId, Task task) {
         Project project = projects.get(projectId);
         if (project == null) {
             out.printf("Could not find a project with the name \"%s\".", projectId);

@@ -1,5 +1,7 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.commands.ProjectId;
+
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -7,13 +9,14 @@ import static java.lang.System.out;
 
 public class Project {
     private Map<TaskId, Task> tasks = new HashMap<>();
-    private String id;
+    private ProjectId id;
 
     public Project(String id) {
-        this.id = id;
+        this.id = new ProjectId(id);
+
     }
 
-    String getId() {
+    ProjectId getId() {
         return id;
     }
 

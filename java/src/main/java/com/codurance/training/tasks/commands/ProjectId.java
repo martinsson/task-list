@@ -1,10 +1,15 @@
 package com.codurance.training.tasks.commands;
 
 public class ProjectId {
-    private String projectId;
+    public String projectId;
 
     public ProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    @Override
+    public String toString() {
+        return projectId;
     }
 
     @Override
