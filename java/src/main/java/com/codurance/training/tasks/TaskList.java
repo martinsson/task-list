@@ -16,8 +16,10 @@ public final class TaskList implements Runnable {
 
     private final BufferedReader in;
     private final PrintWriter out;
-    public final Projects projects;
-    private IdGenerator idGenerator = new IdGenerator();
+    private final Projects projects;
+    private final IdGenerator idGenerator = new IdGenerator();
+    private final List<Command> addCommands;
+
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -29,6 +31,11 @@ public final class TaskList implements Runnable {
         this.in = reader;
         this.out = writer;
         projects = new Projects(writer);
+        addCommands = Arrays.asList(
+                new AddProjectCommand(projects),
+                new AddTaskCommand(projects, idGenerator),
+                new AddTaskWithIdCommand(projects)
+        );
     }
 
     public void run() {
@@ -50,7 +57,7 @@ public final class TaskList implements Runnable {
 
     private void execute(String commandLine) {
         CommandLine cmdLine = new CommandLine(commandLine);
-        String[] commandRest = commandLine.split(" ",2);
+        String[] commandRest = commandLine.split(" ", 2);
         String command = commandRest[0];
         switch (command) {
             case "show":
@@ -71,7 +78,7 @@ public final class TaskList implements Runnable {
                 help();
                 break;
             case "deadline":
-                commandRest = commandLine.split(" ",3);
+                commandRest = commandLine.split(" ", 3);
                 MyDate deadline = new MyDate(commandRest[2]);
                 TaskId id = new TaskId(commandRest[1]);
                 projects.deadline(new TaskDeadline(id, deadline));
@@ -93,20 +100,10 @@ public final class TaskList implements Runnable {
     }
 
     private void add(CommandLine cmdLine) {
-        Command addProjectCommand = new AddProjectCommand(projects);
-        Command addTaskCommand = new AddTaskCommand(projects, idGenerator);
-        Command AddTaskWithIdCommand = new AddTaskWithIdCommand(projects);
-
-        List<Command> addCommands;
-        addCommands = Arrays.asList(
-                addProjectCommand,
-                addTaskCommand,
-                AddTaskWithIdCommand
-        );
         addCommands.stream()
                 .filter(command -> command.canHandle(cmdLine))
                 .findFirst()
-                .ifPresent(command->command.handle(cmdLine));
+                .ifPresent(command -> command.handle(cmdLine));
     }
 
     private void help() {
