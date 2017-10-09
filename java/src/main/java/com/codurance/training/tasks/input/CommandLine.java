@@ -13,6 +13,11 @@ public class CommandLine {
         this.commandLine = commandLine;
     }
 
+
+    public boolean is(MainCommand mainCommand, SubCommand subCommand) {
+        return commandLine.matches("^" + mainCommand + " " + subCommand + " .*");
+    }
+
     public ProjectId getProjectId() {
         return new ProjectId(splitInParts(4)[2]);
     }
@@ -21,11 +26,6 @@ public class CommandLine {
         String description = splitInParts(4)[3];
         return new Task(taskId, description);
     }
-
-    public boolean is(MainCommand mainCommand, SubCommand subCommand) {
-        return commandLine.matches("^" + mainCommand + " " + subCommand + " .*");
-    }
-
 
     public Task getTask() {
         String[] parts = splitInParts(5);
