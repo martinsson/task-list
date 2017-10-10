@@ -4,10 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
@@ -65,17 +63,44 @@ public final class TaskList implements Runnable {
             case "help":
                 help();
                 break;
+            case "deadline":
+                deadline(commandRest[1]);
+                break;
             default:
                 error(command);
                 break;
         }
     }
 
+    private Optional<Task> getTask(int id) {
+        for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
+            for (Task task : project.getValue()) {
+                if (task.getId() == id) {
+                    return Optional.of(task);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    private void deadline(String commandLine) {
+        String[] subcommandRest = commandLine.split(" ", 2);
+        String idTask = subcommandRest[0];
+        String deadline = subcommandRest[1];
+        int id = Integer.parseInt(idTask);
+
+        //deadlineDate shouldn't be a primitive
+
+
+        Deadline deadlineDate = new Deadline(deadline);
+        getTask(id).ifPresent(a -> a.setDeadline(deadlineDate));
+    }
+
     private void show() {
         for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
             out.println(project.getKey());
             for (Task task : project.getValue()) {
-                out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
+                out.print(task.format());
             }
             out.println();
         }
@@ -116,16 +141,14 @@ public final class TaskList implements Runnable {
 
     private void setDone(String idString, boolean done) {
         int id = Integer.parseInt(idString);
-        for (Map.Entry<String, List<Task>> project : tasks.entrySet()) {
-            for (Task task : project.getValue()) {
-                if (task.getId() == id) {
-                    task.setDone(done);
-                    return;
-                }
-            }
+
+        Optional<Task> task = getTask(id);
+        if(task.isPresent()) {
+            task.get().setDone(done);
+        } else {
+            out.printf("Could not find a task with an ID of %d.", id);
+            out.println();
         }
-        out.printf("Could not find a task with an ID of %d.", id);
-        out.println();
     }
 
     private void help() {

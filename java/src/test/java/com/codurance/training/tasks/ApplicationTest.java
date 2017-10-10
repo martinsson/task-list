@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,12 +32,14 @@ public final class ApplicationTest {
         applicationThread = new Thread(taskList);
     }
 
-    @Before public void
+    @Before
+    public void
     start_the_application() {
         applicationThread.start();
     }
 
-    @After public void
+    @After
+    public void
     kill_the_application() throws IOException, InterruptedException {
         if (!stillRunning()) {
             return;
@@ -51,7 +54,8 @@ public final class ApplicationTest {
         throw new IllegalStateException("The application is still running.");
     }
 
-    @Test(timeout = 1000) public void
+    @Test(timeout = 1000)
+    public void
     it_works() throws IOException {
         execute("show");
 
@@ -61,10 +65,10 @@ public final class ApplicationTest {
 
         execute("show");
         readLines(
-            "secrets",
-            "    [ ] 1: Eat more donuts.",
-            "    [ ] 2: Destroy all humans.",
-            ""
+                "secrets",
+                "    [ ] 1: Eat more donuts.",
+                "    [ ] 2: Destroy all humans.",
+                ""
         );
 
         execute("add project training");
@@ -123,5 +127,25 @@ public final class ApplicationTest {
 
     private boolean stillRunning() {
         return applicationThread != null && applicationThread.isAlive();
+    }
+
+    @Test
+    public void should_display_deadlines() throws IOException {
+        execute("show");
+
+        execute("add project secrets");
+        execute("add task secrets Eat more donuts.");
+        execute("add task secrets Destroy all humans.");
+        execute("deadline 1 2017-10-24");
+        execute("deadline 2 2017-10-25");
+
+        execute("show");
+        readLines(
+                "secrets",
+                "    [ ] 1: Eat more donuts. outdated at 2017-10-24",
+                "    [ ] 2: Destroy all humans. outdated at 2017-10-25",
+                ""
+        );
+        execute("quit");
     }
 }
