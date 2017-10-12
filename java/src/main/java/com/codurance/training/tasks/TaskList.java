@@ -5,6 +5,7 @@ import com.codurance.training.tasks.commands.AddTaskCommand;
 import com.codurance.training.tasks.commands.AddTaskWithIdCommand;
 import com.codurance.training.tasks.commands.Command;
 import com.codurance.training.tasks.input.CommandLine;
+import com.codurance.training.tasks.output.Display;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public final class TaskList implements Runnable {
     public TaskList(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
-        projects = new Projects(writer);
+        projects = new Projects(new Display(writer));
         addCommands = Arrays.asList(
                 new AddProjectCommand(projects),
                 new AddTaskCommand(projects),

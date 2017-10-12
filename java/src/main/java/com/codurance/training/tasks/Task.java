@@ -30,7 +30,7 @@ public final class Task {
         return onDate != null && onDate.equals(deadline);
     }
 
-    void printTask(PrintWriter out) {
+    public void printTask(PrintWriter out) {
         out.printf("    [%c] %s: %s%n", (done ? 'x' : ' '), getId().toString(), description);
     }
 

@@ -1,6 +1,7 @@
 package com.codurance.training.tasks;
 
-import java.io.PrintWriter;
+import com.codurance.training.tasks.output.Display;
+
 import java.util.*;
 
 import static java.lang.System.out;
@@ -22,22 +23,22 @@ public class Project {
         tasks.put(task.getId(), task);
     }
 
-    void show(PrintWriter out) {
-        out.println(id);
+    void show(Display display) {
+        display.projectId(id);
         for (Task task : tasks.values()) {
-            task.printTask(out);
+            display.display(task);
         }
-        out.println();
+        display.endSection();
     }
 
     public void deleteIfExists(TaskId taskId) {
         tasks.remove(taskId);
     }
 
-    public void showToday(MyDate today, PrintWriter out) {
+    public void showToday(MyDate today, Display display) {
         tasks.values().stream()
                 .filter(task -> task.isDue(today))
-                .forEach(task -> task.printTask(out));
+                .forEach(task -> display.display(task));
     }
 
     public void setDoneIfExists(TaskId taskId, boolean done) {

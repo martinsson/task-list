@@ -1,14 +1,16 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.output.Display;
+
 import java.io.PrintWriter;
 import java.util.*;
 
 public class Projects {
     private final Map<ProjectId, Project> projects = new LinkedHashMap<>();
-    private final PrintWriter out;
+    private Display display;
 
-    Projects(PrintWriter out) {
-        this.out = out;
+    Projects(Display display) {
+        this.display = display;
     }
 
     public void addProject(Project project) {
@@ -22,22 +24,21 @@ public class Projects {
 
     void show() {
         for (Project project : projects.values()) {
-            project.show(this.out);
+            project.show(display);
         }
     }
 
     void today() {
         MyDate today = new MyDate("21/09/2017");
         projects.values().stream()
-                .forEach(project-> project.showToday(today, out));
+                .forEach(project-> project.showToday(today, display));
 
     }
 
     public void addTaskWithId(ProjectId projectId, Task task) {
         Project project = projects.get(projectId);
         if (project == null) {
-            out.printf("Could not find a project with the name \"%s\".", projectId);
-            out.println();
+            display.projectNotFound(projectId);
             return;
         }
         project.add(task);
