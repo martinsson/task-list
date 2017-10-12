@@ -2,6 +2,7 @@ package com.codurance.training.tasks.output;
 
 import com.codurance.training.tasks.ProjectId;
 import com.codurance.training.tasks.Task;
+import com.codurance.training.tasks.TaskId;
 
 import java.io.PrintWriter;
 
@@ -20,7 +21,6 @@ public class Display {
     }
 
     public void projectId(ProjectId id) {
-        // TODO roundrip again to ProjectId and back
         out.println(id);
     }
 
@@ -30,5 +30,10 @@ public class Display {
 
     public void endSection() {
         out.println();
+    }
+
+    public void taskNotFound(TaskId taskId) {
+        System.out.printf("Could not find a task with an ID of %s.", taskId);
+        System.out.println();
     }
 }

@@ -59,7 +59,7 @@ public class Projects {
 
     private void setDone(TaskId taskId, boolean done) {
         projects.values().stream()
-                .forEach(project -> project.setDoneIfExists(taskId, done));
+                .forEach(project -> project.setDoneIfExists(taskId, done, display));
     }
 
     public void viewByDate() {

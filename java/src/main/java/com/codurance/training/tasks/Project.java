@@ -4,15 +4,12 @@ import com.codurance.training.tasks.output.Display;
 
 import java.util.*;
 
-import static java.lang.System.out;
-
 public class Project {
     private Map<TaskId, Task> tasks = new HashMap<>();
     private ProjectId id;
 
     public Project(ProjectId projectId) {
         this.id = projectId;
-
     }
 
     ProjectId getId() {
@@ -41,11 +38,10 @@ public class Project {
                 .forEach(task -> display.display(task));
     }
 
-    public void setDoneIfExists(TaskId taskId, boolean done) {
+    public void setDoneIfExists(TaskId taskId, boolean done, Display display) {
         Task task = tasks.get(taskId);
         if (task == null) {
-            out.printf("Could not find a task with an ID of %s.", taskId);
-            out.println();
+            display.taskNotFound(taskId);
         } else {
             task.setDone(done);
         }
