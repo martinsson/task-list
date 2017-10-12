@@ -1,5 +1,7 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.output.Display;
+
 import java.io.PrintWriter;
 
 public final class Task {
@@ -30,8 +32,8 @@ public final class Task {
         return onDate != null && onDate.equals(deadline);
     }
 
-    public void printTask(PrintWriter out) {
-        out.printf("    [%c] %s: %s%n", (done ? 'x' : ' '), getId().toString(), description);
+    public void printTask(Display display) {
+        display.printTask(done, getId().toString(), description);
     }
 
     void defineDeadline(TaskDeadline taskDeadline) {

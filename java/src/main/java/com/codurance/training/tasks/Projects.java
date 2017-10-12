@@ -18,8 +18,9 @@ public class Projects {
     }
 
     void deadline(TaskDeadline taskDeadline) {
-        projects.values().stream()
-                .forEach(project -> project.setDeadLineIfExists(taskDeadline));
+        projects.values().forEach(
+                project -> project.setDeadLineIfExists(taskDeadline)
+        );
     }
 
     void show() {
@@ -30,7 +31,7 @@ public class Projects {
 
     void today() {
         MyDate today = new MyDate("21/09/2017");
-        projects.values().stream()
+        projects.values()
                 .forEach(project-> project.showToday(today, display));
 
     }
@@ -53,12 +54,12 @@ public class Projects {
     }
 
     void delete(TaskId taskId) {
-        projects.values().stream()
+        projects.values()
                 .forEach(project->project.deleteIfExists(taskId));
     }
 
     private void setDone(TaskId taskId, boolean done) {
-        projects.values().stream()
+        projects.values()
                 .forEach(project -> project.setDoneIfExists(taskId, done, display));
     }
 

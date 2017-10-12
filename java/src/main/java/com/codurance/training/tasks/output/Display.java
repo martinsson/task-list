@@ -25,7 +25,7 @@ public class Display {
     }
 
     public void display(Task task) {
-        task.printTask(out);
+        task.printTask(this);
     }
 
     public void endSection() {
@@ -35,5 +35,9 @@ public class Display {
     public void taskNotFound(TaskId taskId) {
         System.out.printf("Could not find a task with an ID of %s.", taskId);
         System.out.println();
+    }
+
+    public void printTask(boolean done, String taskId, String description) {
+        out.printf("    [%c] %s: %s%n", (done ? 'x' : ' '), taskId, description);
     }
 }

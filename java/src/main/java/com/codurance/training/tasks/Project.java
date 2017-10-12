@@ -35,7 +35,7 @@ public class Project {
     public void showToday(MyDate today, Display display) {
         tasks.values().stream()
                 .filter(task -> task.isDue(today))
-                .forEach(task -> display.display(task));
+                .forEach(display::display);
     }
 
     public void setDoneIfExists(TaskId taskId, boolean done, Display display) {
