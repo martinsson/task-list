@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import static com.codurance.training.tasks.java.lang.IfPresentDoOrElse.ifPresent;
+
 public class Projects {
     private final Map<ProjectId, Project> projects = new LinkedHashMap<>();
     private Display display;
@@ -70,42 +72,6 @@ public class Projects {
 
     }
 
-    public static <T> IfPresent<T> ifPresent(Optional<T> optional) {
-        return ifPresent -> otherwise -> {
-            if (optional.isPresent()) {
-                ifPresent.accept(optional.get());
-            } else {
-                otherwise.run();
-            }
-        };
-    }
-
-    public interface Otherwise {
-        void otherwise(Runnable action);
-    }
-
-    public interface IfPresent<T> {
-        Otherwise then(Consumer<T> consumer);
-    }
-//
-//    public static class OptionalOrElseDo<T> {
-//        private Optional<T> optional;
-//
-//        public <T> OptionalOrElseDo(Optional<T> optional) {
-//            this.optional = optional;
-//        }
-//
-//        public static <T> OptionalOrElseDo either(Optional<T> optional) {
-//            return new OptionalOrElseDo(optional);
-//        }
-//        public OptionalOrElseDo ifPresent(Consumer<T> consumer) {
-//            return this;
-//        }
-//        public void orElseDo(Consumer<Void> consumer) {
-//            consumer.
-//        }
-//
-//    }
 
     public void viewByDate() {
 

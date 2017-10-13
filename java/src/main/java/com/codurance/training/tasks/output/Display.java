@@ -17,7 +17,6 @@ public class Display {
     public void projectNotFound(ProjectId projectId) {
         out.printf("Could not find a project with the name \"%s\".", projectId);
         out.println();
-
     }
 
     public void projectId(ProjectId id) {
