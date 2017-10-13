@@ -20,20 +20,20 @@ import java.util.*;
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
 
-    private final BufferedReader in;
     private final Projects projects;
     private final List<Command> addCommands;
     private final Display display;
+    private final UserInput userInput;
 
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
-        new TaskList(in, new Display(out)).run();
+        new TaskList(new Display(out), new UserInput(in)).run();
     }
 
-    public TaskList(BufferedReader reader, Display display) {
-        this.in = reader;
+    public TaskList(Display display, UserInput userInput) {
+        this.userInput = userInput;
         this.display = display;
         projects = new Projects(this.display);
         addCommands = Arrays.asList(
@@ -48,7 +48,7 @@ public final class TaskList implements Runnable {
             display.promptForInput();
             String command;
             try {
-                command = in.readLine();
+                command = userInput.getInput();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

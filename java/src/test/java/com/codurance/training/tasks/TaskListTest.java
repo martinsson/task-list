@@ -30,7 +30,7 @@ public final class TaskListTest {
     public TaskListTest() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(new PipedInputStream(inStream)));
         PrintWriter out = new PrintWriter(new PipedOutputStream(outStream), true);
-        TaskList taskList = new TaskList(in, new Display(out));
+        TaskList taskList = new TaskList(new Display(out), new UserInput(in));
         applicationThread = new Thread(taskList);
     }
 
