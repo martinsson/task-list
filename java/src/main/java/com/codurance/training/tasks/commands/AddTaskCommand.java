@@ -1,6 +1,9 @@
 package com.codurance.training.tasks.commands;
 
-import com.codurance.training.tasks.*;
+import com.codurance.training.tasks.domain.ProjectId;
+import com.codurance.training.tasks.domain.Projects;
+import com.codurance.training.tasks.domain.Task;
+import com.codurance.training.tasks.domain.TaskId;
 import com.codurance.training.tasks.input.CommandLine;
 
 import static com.codurance.training.tasks.input.MainCommand.add;

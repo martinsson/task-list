@@ -1,11 +1,9 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.domain;
 
 import com.codurance.training.tasks.output.Display;
 
 import java.util.*;
 import java.util.function.Consumer;
-
-import static java.lang.System.out;
 
 public class Project {
     private Map<TaskId, Task> tasks = new HashMap<>();

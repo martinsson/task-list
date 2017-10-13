@@ -4,6 +4,10 @@ import com.codurance.training.tasks.commands.AddProjectCommand;
 import com.codurance.training.tasks.commands.AddTaskCommand;
 import com.codurance.training.tasks.commands.AddTaskWithIdCommand;
 import com.codurance.training.tasks.commands.Command;
+import com.codurance.training.tasks.domain.MyDate;
+import com.codurance.training.tasks.domain.Projects;
+import com.codurance.training.tasks.domain.TaskDeadline;
+import com.codurance.training.tasks.domain.TaskId;
 import com.codurance.training.tasks.input.CommandLine;
 import com.codurance.training.tasks.output.Display;
 

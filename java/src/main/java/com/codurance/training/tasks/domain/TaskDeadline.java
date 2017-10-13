@@ -1,4 +1,4 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.domain;
 
 public class TaskDeadline {
     public final TaskId id;

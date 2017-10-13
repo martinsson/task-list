@@ -1,4 +1,4 @@
-package com.codurance.training.tasks;
+package com.codurance.training.tasks.domain;
 
 import com.codurance.training.tasks.output.Display;
 
@@ -13,7 +13,7 @@ public class Projects {
     private final Map<ProjectId, Project> projects = new LinkedHashMap<>();
     private Display display;
 
-    Projects(Display display) {
+    public Projects(Display display) {
         this.display = display;
     }
 
@@ -21,19 +21,19 @@ public class Projects {
         projects.put(project.getId(), project);
     }
 
-    void deadline(TaskDeadline taskDeadline) {
+    public void deadline(TaskDeadline taskDeadline) {
         projects.values().forEach(
                 project -> project.setDeadLineIfExists(taskDeadline)
         );
     }
 
-    void show() {
+    public void show() {
         for (Project project : projects.values()) {
             project.show(display);
         }
     }
 
-    void today() {
+    public void today() {
         MyDate today = new MyDate("2017-09-21");
         projects.values()
                 .forEach(project -> project.showToday(today, display));
@@ -49,16 +49,16 @@ public class Projects {
         project.add(task);
     }
 
-    void check(TaskId taskId) {
+    public void check(TaskId taskId) {
 
         setDone(taskId, true, Task::markDone);
     }
 
-    void uncheck(TaskId taskId) {
+    public void uncheck(TaskId taskId) {
         setDone(taskId, false, Task::markUndone);
     }
 
-    void delete(TaskId taskId) {
+    public void delete(TaskId taskId) {
         projects.values()
                 .forEach(project -> project.deleteIfExists(taskId));
     }

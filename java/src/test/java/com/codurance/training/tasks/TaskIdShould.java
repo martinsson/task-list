@@ -1,8 +1,7 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.domain.TaskId;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class TaskIdShould {
 

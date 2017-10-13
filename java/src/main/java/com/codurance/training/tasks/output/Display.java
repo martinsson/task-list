@@ -1,8 +1,8 @@
 package com.codurance.training.tasks.output;
 
-import com.codurance.training.tasks.ProjectId;
-import com.codurance.training.tasks.Task;
-import com.codurance.training.tasks.TaskId;
+import com.codurance.training.tasks.domain.ProjectId;
+import com.codurance.training.tasks.domain.Task;
+import com.codurance.training.tasks.domain.TaskId;
 
 import java.io.PrintWriter;
 

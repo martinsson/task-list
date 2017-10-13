@@ -1,5 +1,6 @@
 package com.codurance.training.tasks;
 
+import com.codurance.training.tasks.domain.MyDate;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
