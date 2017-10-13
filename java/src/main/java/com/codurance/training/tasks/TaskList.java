@@ -21,21 +21,21 @@ public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
 
     private final BufferedReader in;
-    private final PrintWriter out;
     private final Projects projects;
     private final List<Command> addCommands;
+    private final Display display;
 
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
-        new TaskList(in, out).run();
+        new TaskList(in, new Display(out)).run();
     }
 
-    public TaskList(BufferedReader reader, PrintWriter writer) {
+    public TaskList(BufferedReader reader, Display display) {
         this.in = reader;
-        this.out = writer;
-        projects = new Projects(new Display(writer));
+        this.display = display;
+        projects = new Projects(this.display);
         addCommands = Arrays.asList(
                 new AddProjectCommand(projects),
                 new AddTaskCommand(projects),
@@ -45,8 +45,7 @@ public final class TaskList implements Runnable {
 
     public void run() {
         while (true) {
-            out.print("> ");
-            out.flush();
+            display.promptForInput();
             String command;
             try {
                 command = in.readLine();
@@ -80,7 +79,7 @@ public final class TaskList implements Runnable {
                 projects.uncheck(new TaskId(commandRest[1]));
                 break;
             case "help":
-                help();
+                display.help(this);
                 break;
             case "deadline":
                 commandRest = commandLine.split(" ", 3);
@@ -95,7 +94,7 @@ public final class TaskList implements Runnable {
                 projects.today();
                 break;
             default:
-                error(command);
+                cmdLine.displayNotFound(display);
                 break;
         }
     }
@@ -109,21 +108,6 @@ public final class TaskList implements Runnable {
                 .filter(command -> command.canHandle(cmdLine))
                 .findFirst()
                 .ifPresent(command -> command.handle(cmdLine));
-    }
-
-    private void help() {
-        out.println("Commands:");
-        out.println("  show");
-        out.println("  add project <project name>");
-        out.println("  add task <project name> <task description>");
-        out.println("  check <task ID>");
-        out.println("  uncheck <task ID>");
-        out.println();
-    }
-
-    private void error(String command) {
-        out.printf("I don't know what the command \"%s\" is.", command);
-        out.println();
     }
 
 }

@@ -3,6 +3,9 @@ package com.codurance.training.tasks.input;
 import com.codurance.training.tasks.domain.Task;
 import com.codurance.training.tasks.domain.TaskId;
 import com.codurance.training.tasks.domain.ProjectId;
+import com.codurance.training.tasks.output.Display;
+
+import static java.lang.System.out;
 
 public class CommandLine {
 
@@ -37,5 +40,9 @@ public class CommandLine {
 
     private String[] splitInParts(int nbParts) {
         return commandLine.split(" ", nbParts);
+    }
+
+    public void displayNotFound(Display display) {
+        display.commandNotFound(splitInParts(1)[0]);
     }
 }

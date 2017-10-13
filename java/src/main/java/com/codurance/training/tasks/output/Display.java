@@ -1,5 +1,6 @@
 package com.codurance.training.tasks.output;
 
+import com.codurance.training.tasks.TaskList;
 import com.codurance.training.tasks.domain.ProjectId;
 import com.codurance.training.tasks.domain.Task;
 import com.codurance.training.tasks.domain.TaskId;
@@ -38,5 +39,26 @@ public class Display {
 
     public void printTask(boolean done, String taskId, String description) {
         out.printf("    [%c] %s: %s%n", (done ? 'x' : ' '), taskId, description);
+    }
+
+    public void help(TaskList taskList) {
+        out.println();
+        out.println();
+        out.println();
+        out.println();
+        out.println();
+        out.println();
+        out.println();
+    }
+
+    public void commandNotFound(String mainCommand) {
+        out.printf("I don't know what the command \"%s\" is.", mainCommand);
+        out.println();
+
+    }
+
+    public void promptForInput() {
+        out.print("> ");
+        out.flush();
     }
 }
