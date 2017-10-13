@@ -99,7 +99,7 @@ public final class TaskListTest {
                 ""
         );
 
-        execute("deadline 4 21/09/2017");
+        execute("deadline 4 2017-09-21");
         execute("today");
         readLines("    [ ] 4: SOLID");
 

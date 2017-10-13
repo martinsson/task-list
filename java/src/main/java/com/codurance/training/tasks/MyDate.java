@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 public class MyDate implements Comparable<MyDate>{
     private String date;
 
-    public MyDate(String ddmmyyyy) {
+    public MyDate(String yyyymmdd) {
 
-        this.date = ddmmyyyy;
+        this.date = yyyymmdd;
     }
 
     @Override
@@ -28,9 +28,8 @@ public class MyDate implements Comparable<MyDate>{
 
     @Override
     public int compareTo(MyDate other) {
-        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("ddMMuuuu");
-        LocalDate self = LocalDate.parse(date, pattern);
-        LocalDate otherDate = LocalDate.parse(other.date, pattern);
+        LocalDate self = LocalDate.parse(date);
+        LocalDate otherDate = LocalDate.parse(other.date);
         return self.compareTo(otherDate);
     }
 }

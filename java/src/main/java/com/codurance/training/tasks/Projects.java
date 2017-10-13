@@ -34,7 +34,7 @@ public class Projects {
     }
 
     void today() {
-        MyDate today = new MyDate("21/09/2017");
+        MyDate today = new MyDate("2017-09-21");
         projects.values()
                 .forEach(project -> project.showToday(today, display));
 
