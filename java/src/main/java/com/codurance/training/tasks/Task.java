@@ -22,8 +22,11 @@ public final class Task {
         return id;
     }
 
-    void setDone(boolean done) {
-        this.done = done;
+    public static void markDone(Task task) {
+        task.done = true;
+    }
+    public static void markUndone(Task task) {
+        task.done = false;
     }
 
     boolean isDue(MyDate onDate) {

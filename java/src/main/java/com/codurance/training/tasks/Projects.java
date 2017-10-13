@@ -50,11 +50,12 @@ public class Projects {
     }
 
     void check(TaskId taskId) {
-        setDone(taskId, true);
+
+        setDone(taskId, true, Task::markDone);
     }
 
     void uncheck(TaskId taskId) {
-        setDone(taskId, false);
+        setDone(taskId, false, Task::markUndone);
     }
 
     void delete(TaskId taskId) {
@@ -62,12 +63,12 @@ public class Projects {
                 .forEach(project -> project.deleteIfExists(taskId));
     }
 
-    private void setDone(TaskId taskId, boolean done) {
+    private void setDone(TaskId taskId, boolean done, Consumer<Task> taskMarker) {
         Optional<Project> foundProject = projects.values().stream()
                 .filter(project -> project.hasTask(taskId))
                 .findFirst();
         ifPresent(foundProject)
-            .then(project -> project.setDone(taskId, done, display))
+            .then(project -> project.setDone(taskId, taskMarker, display))
             .otherwise(() -> display.taskNotFound(taskId));
 
     }

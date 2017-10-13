@@ -3,6 +3,7 @@ package com.codurance.training.tasks;
 import com.codurance.training.tasks.output.Display;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 import static java.lang.System.out;
 
@@ -40,8 +41,9 @@ public class Project {
                 .forEach(display::display);
     }
 
-    public void setDone(TaskId taskId, boolean done, Display display) {
-        tasks.get(taskId).setDone(done);
+    public void setDone(TaskId taskId, Consumer<Task> taskMarker, Display display) {
+        Task task = tasks.get(taskId);
+        taskMarker.accept(task);
     }
 
     public boolean hasTask(TaskId taskId) {
