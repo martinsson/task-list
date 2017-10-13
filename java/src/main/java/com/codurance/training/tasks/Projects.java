@@ -2,8 +2,10 @@ package com.codurance.training.tasks;
 
 import com.codurance.training.tasks.output.Display;
 
-import java.io.PrintWriter;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public class Projects {
     private final Map<ProjectId, Project> projects = new LinkedHashMap<>();
@@ -32,7 +34,7 @@ public class Projects {
     void today() {
         MyDate today = new MyDate("21/09/2017");
         projects.values()
-                .forEach(project-> project.showToday(today, display));
+                .forEach(project -> project.showToday(today, display));
 
     }
 
@@ -55,13 +57,55 @@ public class Projects {
 
     void delete(TaskId taskId) {
         projects.values()
-                .forEach(project->project.deleteIfExists(taskId));
+                .forEach(project -> project.deleteIfExists(taskId));
     }
 
     private void setDone(TaskId taskId, boolean done) {
-        projects.values()
-                .forEach(project -> project.setDoneIfExists(taskId, done, display));
+        Optional<Project> foundProject = projects.values().stream()
+                .filter(project -> project.hasTask(taskId))
+                .findFirst();
+        ifPresent(foundProject)
+            .then(project -> project.setDone(taskId, done, display))
+            .otherwise(() -> display.taskNotFound(taskId));
+
     }
+
+    public static <T> IfPresent<T> ifPresent(Optional<T> optional) {
+        return ifPresent -> otherwise -> {
+            if (optional.isPresent()) {
+                ifPresent.accept(optional.get());
+            } else {
+                otherwise.run();
+            }
+        };
+    }
+
+    public interface Otherwise {
+        void otherwise(Runnable action);
+    }
+
+    public interface IfPresent<T> {
+        Otherwise then(Consumer<T> consumer);
+    }
+//
+//    public static class OptionalOrElseDo<T> {
+//        private Optional<T> optional;
+//
+//        public <T> OptionalOrElseDo(Optional<T> optional) {
+//            this.optional = optional;
+//        }
+//
+//        public static <T> OptionalOrElseDo either(Optional<T> optional) {
+//            return new OptionalOrElseDo(optional);
+//        }
+//        public OptionalOrElseDo ifPresent(Consumer<T> consumer) {
+//            return this;
+//        }
+//        public void orElseDo(Consumer<Void> consumer) {
+//            consumer.
+//        }
+//
+//    }
 
     public void viewByDate() {
 

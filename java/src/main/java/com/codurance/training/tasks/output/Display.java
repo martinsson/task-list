@@ -33,8 +33,8 @@ public class Display {
     }
 
     public void taskNotFound(TaskId taskId) {
-        System.out.printf("Could not find a task with an ID of %s.", taskId);
-        System.out.println();
+        out.printf("Could not find a task with an ID of %s.", taskId);
+        out.println();
     }
 
     public void printTask(boolean done, String taskId, String description) {

@@ -4,6 +4,8 @@ import com.codurance.training.tasks.output.Display;
 
 import java.util.*;
 
+import static java.lang.System.out;
+
 public class Project {
     private Map<TaskId, Task> tasks = new HashMap<>();
     private ProjectId id;
@@ -38,14 +40,12 @@ public class Project {
                 .forEach(display::display);
     }
 
-    public void setDoneIfExists(TaskId taskId, boolean done, Display display) {
-        Task task = tasks.get(taskId);
-        if (task == null) {
-            display.taskNotFound(taskId);
-        } else {
-            task.setDone(done);
-        }
+    public void setDone(TaskId taskId, boolean done, Display display) {
+        tasks.get(taskId).setDone(done);
+    }
 
+    public boolean hasTask(TaskId taskId) {
+        return tasks.get(taskId) != null;
     }
 
     public void setDeadLineIfExists(TaskDeadline taskDeadline) {

@@ -2,8 +2,6 @@ package com.codurance.training.tasks;
 
 import com.codurance.training.tasks.output.Display;
 
-import java.io.PrintWriter;
-
 public final class Task {
     private final TaskId id;
     private final String description;
