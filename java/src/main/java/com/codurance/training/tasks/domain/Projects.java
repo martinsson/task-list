@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.codurance.training.tasks.java.lang.IfPresentDoOrElse.ifPresent;
 
@@ -63,13 +64,18 @@ public class Projects {
     }
 
     private void markTask(TaskId taskId, Consumer<Task> taskMarker) {
-        Optional<Project> foundProject = projects.values().stream()
+        Function<Project, Runnable> setTaskDone = project -> () -> project.setDone(taskId, taskMarker, display);
+
+        findProject(taskId)
+                .map(setTaskDone)
+                .orElse(() -> display.taskNotFound(taskId))
+                .run();
+    }
+
+    private Optional<Project> findProject(TaskId taskId) {
+        return projects.values().stream()
                 .filter(project -> project.hasTask(taskId))
                 .findFirst();
-        ifPresent(foundProject)
-            .then(project -> project.setDone(taskId, taskMarker, display))
-            .otherwise(() -> display.taskNotFound(taskId));
-
     }
 
 
