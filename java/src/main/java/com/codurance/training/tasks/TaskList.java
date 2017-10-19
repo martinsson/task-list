@@ -14,7 +14,7 @@ public final class TaskList implements Runnable {
     private final Projects projects;
     private final Display display;
     private final UserInput userInput;
-    private final AddCommand.IdGenerator idGenerator;
+    private final IdGenerator idGenerator;
 
 
     public static void main(String[] args) throws Exception {
@@ -27,7 +27,7 @@ public final class TaskList implements Runnable {
         this.userInput = userInput;
         this.display = display;
         projects = new Projects(this.display);
-        idGenerator = new AddCommand.IdGenerator();
+        idGenerator = new IdGenerator();
     }
 
     public void run() {
@@ -48,7 +48,7 @@ public final class TaskList implements Runnable {
 
     private void execute(String commandLine) {
 
-        ExecutableCommand cmdLine = new CommandLine(commandLine, projects, display, idGenerator);
+        CommandLine cmdLine = new CommandLine(commandLine, projects, display, idGenerator);
         cmdLine.execute();
 
 

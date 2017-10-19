@@ -4,7 +4,7 @@ import com.codurance.training.tasks.domain.*;
 import com.codurance.training.tasks.output.Display;
 
 public class AddCommand implements ExecutableCommand {
-    private final AddCommand.IdGenerator idGenerator;
+    private final IdGenerator idGenerator;
     private String addCommandLine;
     private Projects projects;
     private Display display;
@@ -46,18 +46,6 @@ public class AddCommand implements ExecutableCommand {
                 break;
 
 
-        }
-    }
-
-
-    public static class IdGenerator {
-        private long lastId = 0;
-
-        public IdGenerator() {
-        }
-
-        public long nextId() {
-            return ++lastId;
         }
     }
 

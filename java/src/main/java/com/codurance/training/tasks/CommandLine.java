@@ -4,16 +4,15 @@ import com.codurance.training.tasks.domain.MyDate;
 import com.codurance.training.tasks.domain.Projects;
 import com.codurance.training.tasks.domain.TaskDeadline;
 import com.codurance.training.tasks.domain.TaskId;
-import com.codurance.training.tasks.input.OldCmdLine;
 import com.codurance.training.tasks.output.Display;
 
 public class CommandLine implements ExecutableCommand {
     private String commandLine;
     private Projects projects;
     private Display display;
-    private AddCommand.IdGenerator idGenerator;
+    private IdGenerator idGenerator;
 
-    public CommandLine(String commandLine, Projects projects, Display display, AddCommand.IdGenerator idGenerator) {
+    public CommandLine(String commandLine, Projects projects, Display display, IdGenerator idGenerator) {
         this.commandLine = commandLine;
         this.projects = projects;
         this.display = display;
@@ -22,7 +21,6 @@ public class CommandLine implements ExecutableCommand {
 
     @Override
     public void execute() {
-        OldCmdLine oldCmdLine = new OldCmdLine(commandLine);
         String[] commandRest = commandLine.split(" ", 2);
         String command = commandRest[0];
         switch (command) {
@@ -56,7 +54,7 @@ public class CommandLine implements ExecutableCommand {
                 projects.today();
                 break;
             default:
-                oldCmdLine.displayNotFound(display);
+                display.commandNotFound(command);
                 break;
         }
 
