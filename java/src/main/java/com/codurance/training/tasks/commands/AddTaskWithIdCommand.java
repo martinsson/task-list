@@ -1,7 +1,7 @@
 package com.codurance.training.tasks.commands;
 
 import com.codurance.training.tasks.domain.Projects;
-import com.codurance.training.tasks.input.CommandLine;
+import com.codurance.training.tasks.input.OldCmdLine;
 
 import static com.codurance.training.tasks.input.MainCommand.add;
 import static com.codurance.training.tasks.input.SubCommand.taskWithId;
@@ -14,12 +14,12 @@ public class AddTaskWithIdCommand implements Command {
     }
 
     @Override
-    public boolean canHandle(CommandLine cmdLine) {
+    public boolean canHandle(OldCmdLine cmdLine) {
         return cmdLine.is(add, taskWithId);
     }
 
     @Override
-    public void handle(CommandLine cmdLine) {
+    public void handle(OldCmdLine cmdLine) {
         projects.addTaskWithId(cmdLine.getProjectId(), cmdLine.getTask());
     }
 }

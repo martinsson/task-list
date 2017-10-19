@@ -8,7 +8,7 @@ import com.codurance.training.tasks.domain.MyDate;
 import com.codurance.training.tasks.domain.Projects;
 import com.codurance.training.tasks.domain.TaskDeadline;
 import com.codurance.training.tasks.domain.TaskId;
-import com.codurance.training.tasks.input.CommandLine;
+import com.codurance.training.tasks.input.OldCmdLine;
 import com.codurance.training.tasks.output.Display;
 
 import java.io.BufferedReader;
@@ -60,54 +60,13 @@ public final class TaskList implements Runnable {
     }
 
     private void execute(String commandLine) {
-        CommandLine cmdLine = new CommandLine(commandLine);
-        String[] commandRest = commandLine.split(" ", 2);
-        String command = commandRest[0];
-        switch (command) {
-            case "show":
-                projects.show();
-                break;
-            case "add":
-                add(cmdLine);
-                break;
-            case "view":
-                view(commandRest[1]);
-            case "check":
-                projects.check(new TaskId(commandRest[1]));
-                break;
-            case "uncheck":
-                projects.uncheck(new TaskId(commandRest[1]));
-                break;
-            case "help":
-                display.help(this);
-                break;
-            case "deadline":
-                commandRest = commandLine.split(" ", 3);
-                MyDate deadline = new MyDate(commandRest[2]);
-                TaskId id = new TaskId(commandRest[1]);
-                projects.deadline(new TaskDeadline(id, deadline));
-                break;
-            case "deleteIfExists":
-                projects.delete(new TaskId(commandRest[1]));
-                break;
-            case "today":
-                projects.today();
-                break;
-            default:
-                cmdLine.displayNotFound(display);
-                break;
-        }
+
+        CommandLine cmdLine = new CommandLine(commandLine, addCommands, projects);
+        cmdLine.execute(display);
+
+
+
     }
 
-    private void view(String viewCommand) {
-        projects.viewByDate();
-    }
-
-    private void add(CommandLine cmdLine) {
-        addCommands.stream()
-                .filter(command -> command.canHandle(cmdLine))
-                .findFirst()
-                .ifPresent(command -> command.handle(cmdLine));
-    }
 
 }

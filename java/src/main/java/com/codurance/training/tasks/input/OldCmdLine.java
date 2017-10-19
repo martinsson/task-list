@@ -7,12 +7,12 @@ import com.codurance.training.tasks.output.Display;
 
 import static java.lang.System.out;
 
-public class CommandLine {
+public class OldCmdLine {
 
 
     private String commandLine;
 
-    public CommandLine(String commandLine) {
+    public OldCmdLine(String commandLine) {
         this.commandLine = commandLine;
     }
 

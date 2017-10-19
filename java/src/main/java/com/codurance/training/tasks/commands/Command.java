@@ -1,10 +1,10 @@
 package com.codurance.training.tasks.commands;
 
-import com.codurance.training.tasks.input.CommandLine;
+import com.codurance.training.tasks.input.OldCmdLine;
 
 public interface Command  {
-    boolean canHandle(CommandLine cmdLine);
+    boolean canHandle(OldCmdLine cmdLine);
 
-    void handle(CommandLine cmdLine);
+    void handle(OldCmdLine cmdLine);
 
 }
