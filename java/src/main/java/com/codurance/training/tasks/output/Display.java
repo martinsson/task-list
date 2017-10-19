@@ -1,7 +1,6 @@
 package com.codurance.training.tasks.output;
 
-import com.codurance.training.tasks.CommandLine;
-import com.codurance.training.tasks.TaskList;
+import com.codurance.training.tasks.ExecutableCommand;
 import com.codurance.training.tasks.domain.ProjectId;
 import com.codurance.training.tasks.domain.Task;
 import com.codurance.training.tasks.domain.TaskId;
@@ -42,7 +41,7 @@ public class Display {
         out.printf("    [%c] %s: %s%n", (done ? 'x' : ' '), taskId, description);
     }
 
-    public void help(CommandLine taskList) {
+    public void help(ExecutableCommand taskList) {
         out.println();
         out.println();
         out.println();

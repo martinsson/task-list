@@ -10,19 +10,23 @@ import com.codurance.training.tasks.output.Display;
 
 import java.util.List;
 
-public class CommandLine {
+public class CommandLine implements ExecutableCommand {
     private String commandLine;
     private List<Command> addCommands;
     private Projects projects;
+    private Display display;
+    private AddCommand.IdGenerator idGenerator;
 
-    public CommandLine(String commandLine, List<Command> addCommands, Projects projects) {
+    public CommandLine(String commandLine, List<Command> addCommands, Projects projects, Display display, AddCommand.IdGenerator idGenerator) {
         this.commandLine = commandLine;
         this.addCommands = addCommands;
         this.projects = projects;
-
+        this.display = display;
+        this.idGenerator = idGenerator;
     }
 
-    public void execute(Display display) {
+    @Override
+    public void execute() {
         OldCmdLine oldCmdLine = new OldCmdLine(commandLine);
         String[] commandRest = commandLine.split(" ", 2);
         String command = commandRest[0];
@@ -31,7 +35,8 @@ public class CommandLine {
                 projects.show();
                 break;
             case "add":
-                add(oldCmdLine);
+                new AddCommand(commandRest[1], projects, display, idGenerator).execute();
+//                add(oldCmdLine);
                 break;
             case "view":
                 view(commandRest[1]);
@@ -67,11 +72,5 @@ public class CommandLine {
         projects.viewByDate();
     }
 
-    private void add(OldCmdLine cmdLine) {
-        addCommands.stream()
-                .filter(command -> command.canHandle(cmdLine))
-                .findFirst()
-                .ifPresent(command -> command.handle(cmdLine));
-    }
 
 }

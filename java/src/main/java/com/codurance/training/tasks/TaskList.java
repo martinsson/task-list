@@ -4,11 +4,7 @@ import com.codurance.training.tasks.commands.AddProjectCommand;
 import com.codurance.training.tasks.commands.AddTaskCommand;
 import com.codurance.training.tasks.commands.AddTaskWithIdCommand;
 import com.codurance.training.tasks.commands.Command;
-import com.codurance.training.tasks.domain.MyDate;
 import com.codurance.training.tasks.domain.Projects;
-import com.codurance.training.tasks.domain.TaskDeadline;
-import com.codurance.training.tasks.domain.TaskId;
-import com.codurance.training.tasks.input.OldCmdLine;
 import com.codurance.training.tasks.output.Display;
 
 import java.io.BufferedReader;
@@ -24,6 +20,7 @@ public final class TaskList implements Runnable {
     private final List<Command> addCommands;
     private final Display display;
     private final UserInput userInput;
+    private final AddCommand.IdGenerator idGenerator;
 
 
     public static void main(String[] args) throws Exception {
@@ -41,6 +38,7 @@ public final class TaskList implements Runnable {
                 new AddTaskCommand(projects),
                 new AddTaskWithIdCommand(projects)
         );
+        idGenerator = new AddCommand.IdGenerator();
     }
 
     public void run() {
@@ -61,8 +59,8 @@ public final class TaskList implements Runnable {
 
     private void execute(String commandLine) {
 
-        CommandLine cmdLine = new CommandLine(commandLine, addCommands, projects);
-        cmdLine.execute(display);
+        ExecutableCommand cmdLine = new CommandLine(commandLine, addCommands, projects, display, idGenerator);
+        cmdLine.execute();
 
 
 
