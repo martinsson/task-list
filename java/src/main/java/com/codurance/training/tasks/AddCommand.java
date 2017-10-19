@@ -27,19 +27,20 @@ public class AddCommand implements ExecutableCommand {
                 projects.addProject(new Project(getProjectId(parts[1])));
                 break;
             case "task":
+                TaskId taskId = new TaskId(idGenerator.nextId());
                 parts = splitInParts(3);
                 projectId = getProjectId(parts[1]);
-                TaskId taskId = new TaskId(idGenerator.nextId());
                 String description = splitInParts(3)[2];
 
                 Task task = new Task(taskId, description);
                 projects.addTaskWithId(projectId, task);
                 break;
             case "task-with-id":
+                TaskId taskId1 = new TaskId(splitInParts(4)[2]);
+
                 String[] parts1 = splitInParts(4);
                 projectId = getProjectId(parts1[1]);
                 String description1 = parts1[3];
-                TaskId taskId1 = new TaskId(parts1[2]);
 
                 Task task1 = new Task(taskId1, description1);
                 projects.addTaskWithId(projectId, task1);
