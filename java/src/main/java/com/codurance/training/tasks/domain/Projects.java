@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.codurance.training.tasks.java.lang.IfPresentDoOrElse.ifPresent;
-
 public class Projects {
     private final Map<ProjectId, Project> projects = new LinkedHashMap<>();
     private Display display;
@@ -24,8 +22,7 @@ public class Projects {
 
     public void deadline(TaskDeadline taskDeadline) {
         projects.values().forEach(
-                project -> project.setDeadLineIfExists(taskDeadline)
-        );
+                project -> project.setDeadLineIfExists(taskDeadline));
     }
 
     public void show() {
