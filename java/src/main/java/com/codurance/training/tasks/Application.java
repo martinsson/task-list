@@ -71,8 +71,8 @@ public final class Application implements Runnable {
 
     private void show() {
         for (Map.Entry<ProjectName, Project> projectEntry : projects.entrySet()) {
-            out.println(projectEntry.getKey());
             Project project = projectEntry.getValue();
+            out.println(project.getName().toString());
             for (Task task : project.getTasks()) {
                 out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
             }
@@ -92,7 +92,7 @@ public final class Application implements Runnable {
     }
 
     private void addProject(ProjectName projectName) {
-        projects.put(projectName, new Project());
+        projects.put(projectName, new Project(projectName));
     }
 
     private void addTask(ProjectName projectName, String description) {
