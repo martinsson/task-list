@@ -24,4 +24,8 @@ public class Project {
     public ProjectName getName() {
         return projectName;
     }
+
+    void serialize(ProjectSerializer projectSerializer) {
+        projectSerializer.serialize(projectName.toString(), tasks);
+    }
 }

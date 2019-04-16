@@ -12,7 +12,7 @@ public final class Application implements Runnable {
 
     private final Map<ProjectName, Project> projects = new LinkedHashMap<>();
     private final BufferedReader in;
-    private final PrintWriter out;
+    public final PrintWriter out;
 
     private long lastId = 0;
 
@@ -70,14 +70,7 @@ public final class Application implements Runnable {
     }
 
     private void show() {
-        for (Map.Entry<ProjectName, Project> projectEntry : projects.entrySet()) {
-            Project project = projectEntry.getValue();
-            out.println(project.getName().toString());
-            for (Task task : project.getTasks()) {
-                out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
-            }
-            out.println();
-        }
+        projects.values().forEach(project -> project.serialize(new ProjectSerializer(out)));
     }
 
     private void add(String commandLine) {
