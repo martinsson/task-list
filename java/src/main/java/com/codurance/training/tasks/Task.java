@@ -11,23 +11,19 @@ public final class Task {
         this.done = done;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
     public void serialize(TaskSerializer taskSerializer) {
         taskSerializer.serialize(id, done, description);
     }
 
     public boolean matches(TaskId id) {
         return this.id.equals(id);
+    }
+
+    public void done() {
+        this.done = true;
+    }
+
+    public void undone() {
+        this.done = false;
     }
 }

@@ -111,7 +111,11 @@ public final class Application implements Runnable {
         for (Map.Entry<ProjectName, Project> projectEntry : projects.entrySet()) {
             for (Task task : projectEntry.getValue().getTasks()) {
                 if (task.matches(id)) {
-                    task.setDone(done);
+                    if (done) {
+                        task.done();
+                    } else {
+                        task.undone();
+                    }
                     return;
                 }
             }
