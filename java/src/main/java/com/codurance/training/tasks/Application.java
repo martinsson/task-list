@@ -107,16 +107,16 @@ public final class Application implements Runnable {
     }
 
     private void setDone(String idString, boolean done) {
-        int id = Integer.parseInt(idString);
+        TaskId id = new TaskId(Long.parseLong(idString));
         for (Map.Entry<ProjectName, Project> projectEntry : projects.entrySet()) {
             for (Task task : projectEntry.getValue().getTasks()) {
-                if (task.getId() == id) {
+                if (task.matches(id)) {
                     task.setDone(done);
                     return;
                 }
             }
         }
-        out.printf("Could not find a task with an ID of %d.", id);
+        out.printf("Could not find a task with an ID of %d.", id.id);
         out.println();
     }
 
@@ -135,7 +135,7 @@ public final class Application implements Runnable {
         out.println();
     }
 
-    private long nextId() {
-        return ++lastId;
+    private TaskId nextId() {
+        return new TaskId(++lastId);
     }
 }
