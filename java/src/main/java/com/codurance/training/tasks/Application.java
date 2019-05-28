@@ -92,16 +92,16 @@ public final class Application implements Runnable {
     }
 
     private void check(String idString) {
-        setDone(idString, true);
+        setDone(idString, TaskState.DONE);
     }
 
     private void uncheck(String idString) {
-        setDone(idString, false);
+        setDone(idString, TaskState.TODO);
     }
 
-    private void setDone(String idString, boolean done) {
+    private void setDone(String idString, TaskState taskState) {
         TaskId id = new TaskId(Long.parseLong(idString));
-        projects.setTaskDone(id, done);
+        projects.setTaskDone(id, taskState);
 
     }
 

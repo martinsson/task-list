@@ -3,27 +3,23 @@ package com.codurance.training.tasks;
 public final class Task {
     private final TaskId id;
     private final String description;
-    private boolean done;
+    private TaskState state;
 
-    public Task(TaskId id, String description, boolean done) {
+    public Task(TaskId id, String description, TaskState state) {
         this.id = id;
         this.description = description;
-        this.done = done;
+        this.state = state;
     }
 
     public void serialize(TaskSerializer taskSerializer) {
-        taskSerializer.serialize(id, done, description);
+        taskSerializer.serialize(id, state, description);
     }
 
     public boolean matches(TaskId id) {
         return this.id.equals(id);
     }
 
-    public void done() {
-        this.done = true;
-    }
-
-    public void undone() {
-        this.done = false;
+    void setState(TaskState taskState) {
+        this.state = taskState;
     }
 }

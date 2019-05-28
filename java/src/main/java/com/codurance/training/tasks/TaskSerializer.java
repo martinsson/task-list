@@ -9,7 +9,7 @@ public class TaskSerializer {
         this.out = out;
     }
 
-    public void serialize(TaskId id, boolean done, String description) {
-        out.printf("    [%c] %d: %s%n", (done ? 'x' : ' '), id.id, description);
+    public void serialize(TaskId id, TaskState state, String description) {
+        out.printf("    [%c] %d: %s%n", state.serialize(), id.id, description);
     }
 }

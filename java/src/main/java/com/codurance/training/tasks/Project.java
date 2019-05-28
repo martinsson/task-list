@@ -3,6 +3,7 @@ package com.codurance.training.tasks;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class Project {
 
@@ -15,6 +16,15 @@ public class Project {
 
     public Collection<Task> getTasks() {
         return tasks;
+    }
+
+    public Optional<Task> findTask(TaskId id) {
+        for (Task task : tasks) {
+            if (task.matches(id)) {
+                return Optional.of(task);
+            }
+        }
+        return Optional.empty();
     }
 
     public void add(Task task) {
