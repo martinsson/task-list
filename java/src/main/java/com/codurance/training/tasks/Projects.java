@@ -23,8 +23,7 @@ public class Projects {
     public void addTask(ProjectName projectName, String description) {
         Project project = projects.get(projectName);
         if (project == null) {
-            out.printf("Could not find a project with the name \"%s\".", projectName);
-            out.println();
+            projectName.serialize(new ProjectNotFoundSerializer(out));
             return;
         }
         project.add(new Task(nextId(), description, TODO));
@@ -40,8 +39,7 @@ public class Projects {
         foundTask.map(task -> (Runnable) () -> {
             task.setState(taskState);
         }).orElse(() -> {
-            out.printf("Could not find a task with an ID of %d.", id.id);
-            out.println();
+            id.serialize(new TaskNotFoundSerializer(out));
         }).run();
     }
 

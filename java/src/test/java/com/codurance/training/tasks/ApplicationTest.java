@@ -99,6 +99,37 @@ public final class ApplicationTest {
         execute("quit");
     }
 
+    @Test(timeout = 1000) public void
+    it_displays_task_not_found_error() throws IOException {
+        execute("show");
+
+        execute("add project secrets");
+        execute("add task secrets Eat more donuts.");
+        execute("add task secrets Destroy all humans.");
+
+        execute("check 3");
+
+        readLines(
+                "Could not find a task with an ID of 3."
+        );
+
+        execute("quit");
+    }
+
+    @Test(timeout = 1000) public void
+    it_displays_project_not_found_error() throws IOException {
+        execute("show");
+
+        execute("add project secrets");
+        execute("add task publics Eat more donuts.");
+
+        readLines(
+                "Could not find a project with the name \"publics\"."
+        );
+
+        execute("quit");
+    }
+
     private void execute(String command) throws IOException {
         read(PROMPT);
         write(command);

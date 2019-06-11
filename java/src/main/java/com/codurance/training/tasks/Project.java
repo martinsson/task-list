@@ -31,11 +31,7 @@ public class Project {
         tasks.add(task);
     }
 
-    public ProjectName getName() {
-        return projectName;
-    }
-
     void serialize(ProjectSerializer projectSerializer) {
-        projectSerializer.serialize(projectName.toString(), tasks);
+        projectSerializer.serialize(projectName, tasks);
     }
 }

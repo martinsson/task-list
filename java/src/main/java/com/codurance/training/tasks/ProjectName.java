@@ -17,15 +17,14 @@ public class ProjectName {
         return name.equals(that.name);
     }
 
-    @Override
-    public String toString() {
-        // TODO refactor suppress toString()
-        return name;
-    }
 
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public void serialize(ProjectNameSerializer projectNameSerializer) {
+        projectNameSerializer.serialize(name);
     }
 
     //    public String getName() {

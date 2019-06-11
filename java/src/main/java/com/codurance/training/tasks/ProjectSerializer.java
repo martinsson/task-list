@@ -6,14 +6,17 @@ import java.util.List;
 public class ProjectSerializer {
     private final PrintWriter out;
     private TaskSerializer taskSerializer;
+    private ShowProjectNameSerializer showProjectNameSerializer;
 
     public ProjectSerializer(PrintWriter out) {
         this.out = out;
         taskSerializer = new TaskSerializer(out);
+        showProjectNameSerializer = new ShowProjectNameSerializer(out);
     }
 
-    public void serialize(String projectName, List<Task> tasks) {
-        out.println(projectName);
+
+    public void serialize(ProjectName projectName, List<Task> tasks) {
+        projectName.serialize(showProjectNameSerializer);
         tasks.forEach(task -> task.serialize(taskSerializer));
         out.println();
     }
