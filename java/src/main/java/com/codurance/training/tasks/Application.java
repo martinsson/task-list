@@ -79,7 +79,7 @@ public final class Application implements Runnable {
             addProject(new ProjectName(subcommandRest[1]));
         } else if (subcommand.equals("task")) {
             String[] projectTask = subcommandRest[1].split(" ", 2);
-            addTask(new ProjectName(projectTask[0]), projectTask[1]);
+            addTask(new ProjectName(projectTask[0]), new TaskDescription(projectTask[1]));
         }
     }
 
@@ -87,7 +87,7 @@ public final class Application implements Runnable {
         projects.addProject(projectName);
     }
 
-    private void addTask(ProjectName projectName, String description) {
+    private void addTask(ProjectName projectName, TaskDescription description) {
         projects.addTask(projectName, description);
     }
 

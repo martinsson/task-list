@@ -2,10 +2,10 @@ package com.codurance.training.tasks;
 
 public final class Task {
     private final TaskId id;
-    private final String description;
+    private final TaskDescription description;
     private TaskState state;
 
-    public Task(TaskId id, String description, TaskState state) {
+    public Task(TaskId id, TaskDescription description, TaskState state) {
         this.id = id;
         this.description = description;
         this.state = state;

@@ -20,7 +20,7 @@ public class Projects {
         projects.put(projectName, new Project(projectName));
     }
 
-    public void addTask(ProjectName projectName, String description) {
+    public void addTask(ProjectName projectName, TaskDescription description) {
         Project project = projects.get(projectName);
         if (project == null) {
             projectName.serialize(new ProjectNotFoundSerializer(out));

@@ -12,13 +12,13 @@ public class TaskSerializer {
         this.out = out;
     }
 
-    public void serialize(TaskId id, TaskState state, String description) {
+    public void serialize(TaskId id, TaskState state, TaskDescription description) {
         // hack for test method that listen for only one printf
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         printWriter.printf("    [%c] ", (state == DONE ? 'x' : ' '));
         id.serialize(new PrintTaskIdSerializer(printWriter));
-        printWriter.printf(": %s%n", description);
+        description.serialize(new TaskDescriptionSerializer(printWriter));
         out.printf(stringWriter.toString());
     }
 }
