@@ -1,6 +1,5 @@
 package com.codurance.training.tasks;
 
-import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -10,10 +9,14 @@ import static com.codurance.training.tasks.TaskState.TODO;
 public class Projects {
     private final Map<ProjectName, Project> projects = new LinkedHashMap<ProjectName, Project>();
     private long lastId = 0;
-    private PrintWriter out;
+    private ProjectNotFoundSerializer projectNameSerializer;
+    private TaskNotFoundSerializer taskIdSerializer;
+    private ProjectSerializer projectSerializer;
 
-    public Projects(PrintWriter out) {
-        this.out = out;
+    public Projects(ProjectSerializer projectSerializer, ProjectNotFoundSerializer projectNameSerializer, TaskNotFoundSerializer taskIdSerializer) {
+        this.projectNameSerializer = projectNameSerializer;
+        this.taskIdSerializer = taskIdSerializer;
+        this.projectSerializer = projectSerializer;
     }
 
     public void addProject(ProjectName projectName) {
@@ -23,7 +26,7 @@ public class Projects {
     public void addTask(ProjectName projectName, TaskDescription description) {
         Project project = projects.get(projectName);
         if (project == null) {
-            projectName.serialize(new ProjectNotFoundSerializer(out));
+            projectName.serialize(projectNameSerializer);
             return;
         }
         project.add(new Task(nextId(), description, TODO));
@@ -39,11 +42,16 @@ public class Projects {
         foundTask.map(task -> (Runnable) () -> {
             task.setState(taskState);
         }).orElse(() -> {
-            id.serialize(new TaskNotFoundSerializer(out));
+
+            id.serialize(taskIdSerializer);
         }).run();
     }
 
     public void serialize(ProjectSerializer projectSerializer) {
         projects.values().forEach(project -> project.serialize(projectSerializer));
+    }
+
+    void show() {
+        serialize(this.projectSerializer);
     }
 }

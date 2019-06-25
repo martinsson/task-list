@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Map;
 
 public final class Application implements Runnable {
     private static final String QUIT = "quit";
@@ -22,7 +21,11 @@ public final class Application implements Runnable {
     public Application(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
-        this.projects = new Projects(out);
+
+        ProjectSerializer projectSerializer = new ProjectSerializer(out);
+        ProjectNotFoundSerializer projectNameSerializer = new ProjectNotFoundSerializer(out);
+        TaskNotFoundSerializer taskIdSerializer = new TaskNotFoundSerializer(out);
+        this.projects = new Projects(projectSerializer, projectNameSerializer, taskIdSerializer);
     }
 
     public void run() {
@@ -68,7 +71,7 @@ public final class Application implements Runnable {
     }
 
     private void show() {
-        projects.serialize(new ProjectSerializer(out));
+        projects.show();
 
     }
 
